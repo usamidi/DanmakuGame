@@ -12,6 +12,7 @@ public class Step
     public float waitTime = 0f;  // 到达后停留时间（用于驻点射击）
 }
 
+[CreateAssetMenu(fileName = "MoveBySteps", menuName = "STG/Move Pattern/By Steps")]
 public class EMoveBySteps : EnemyMotion
 {
 
@@ -20,7 +21,6 @@ public class EMoveBySteps : EnemyMotion
     {
         foreach (var step in steps)
         {
-
             Vector3 position = context.self.position + new Vector3(Mathf.Cos(step.direction * Mathf.Deg2Rad), Mathf.Sin(step.direction * Mathf.Deg2Rad), 0) * step.distance;
             while (Vector2.Distance(context.self.position, position) > 0.05f)
             {

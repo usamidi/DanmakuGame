@@ -14,7 +14,7 @@ public class AimingSpread : EnemyBulletSpawner
 
     public override IEnumerator BulletSpawn(ESContext context)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         float speed = 3.5f;
         Vector3 firePos = context.self.position;
         float baseAngle = EBulletManager.GetAngleToPlayer(firePos);
