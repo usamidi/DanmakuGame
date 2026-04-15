@@ -1,0 +1,68 @@
+Shader "Custom/InstancedColorShader"
+{
+    Properties
+    {
+        _Color ("Main Color", Color) = (1,1,1,1)
+        _MainTex ("Texture", 2D) = "white" {}
+        //_MainTex ("Base (RGB)", 2D) = "white" {}
+    }
+    SubShader
+    {
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        LOD 100
+        // 关键 2: 设置混合模式 (Blend SrcAlpha OneMinusSrcAlpha)
+        // 这是最标准的透明度叠加算法
+        Blend SrcAlpha OneMinusSrcAlpha
+        
+        // 关键 3: 关闭深度写入 (ZWrite Off)
+        // 否则透明物体会遮挡它身后的东西
+        ZWrite Off
+        Cull Off
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing // 关键：开启实例化
+            #include "UnityCG.cginc"
+
+            struct appdata {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID // 关键：定义实例ID输入
+            };
+
+            struct v2f {
+                float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID // 关键：定义实例ID输出
+            };
+
+
+            // 关键：定义实例化属性块
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
+            UNITY_INSTANCING_BUFFER_END(Props)
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            v2f vert (appdata v) {
+                v2f o;
+                UNITY_SETUP_INSTANCE_ID(v); // 关键：必须设置ID
+                UNITY_TRANSFER_INSTANCE_ID(v, o); // 关键：传输ID
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target {
+                UNITY_SETUP_INSTANCE_ID(i); // 关键：在片元着色器中也要设置ID
+                // 关键：根据实例ID获取对应的颜色
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color) * tex2D(_MainTex, i.uv);
+                return color;
+            }
+            ENDCG
+        }
+    }
+}
