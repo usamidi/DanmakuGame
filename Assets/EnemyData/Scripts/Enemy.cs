@@ -7,8 +7,9 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int maxHp = 50;
     [SerializeField] private float bodyHitRadius = 0.35f;
-    private EnemyBulletSpawner spawner;
+    private int type;
 
+    private EnemyBulletSpawner spawner;
     private Player player;
 
 
@@ -39,10 +40,31 @@ public class Enemy : MonoBehaviour
         return this;
     }
 
+    public Enemy SetType(int type)
+    {
+        this.type = type;
+        return this;
+
+    }
+
+    public Enemy SetHP(int hp)
+    {
+        this.hp = hp;
+        return this;
+
+    }
+
     public void OnSpawned()
     {
         StartShoot();
         StartMove();
+    }
+
+    public void OnDespawned()
+    {
+        StopAllCoroutines();
+        moveCoroutine = null;
+        bulletCoroutine = null;
     }
 
 
@@ -61,8 +83,15 @@ public class Enemy : MonoBehaviour
         context.self = transform;
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-        moveCoroutine = StartCoroutine(motion.Move(context));
+        moveCoroutine = StartCoroutine(MoveCoroutine(context));
     }
+
+    private IEnumerator MoveCoroutine(EMContext context)
+    {
+        yield return StartCoroutine(motion.Move(context));
+        EnemyManager.Instance.DespawnEnemy(this, type);
+    }
+
 
     public void StopMove()
     {
