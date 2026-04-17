@@ -16,11 +16,14 @@ public class AimingSpread : EnemyBulletSpawner
     {
         yield return new WaitForSeconds(1.5f);
         float speed = 3.5f;
-        Vector3 firePos = context.self.position;
-        float baseAngle = EBulletManager.GetAngleToPlayer(firePos);
+        Vector3 playerPos = context.player.position;
 
         for (int n = 0; n < 50; n++)
         {
+            Vector3 firePos = context.self.position;
+            float baseAngle = EBulletManager.GetAngleToPosition(firePos, playerPos);
+            //float baseAngle = 270f;
+
             float finalSpeed = speed + (float)n * 0.30f;
             float startAngle = baseAngle - (spreadAngle / 2f);
             float angleStep = spreadLines > 1 ? spreadAngle / (spreadLines - 1) : 0f;

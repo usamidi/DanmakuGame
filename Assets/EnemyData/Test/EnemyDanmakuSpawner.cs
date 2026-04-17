@@ -298,7 +298,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
             if (context.bullet.state != EBulletState.Normal)
             {
-                yield return null;
+                yield break;
             }
             else
             {
@@ -329,7 +329,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
                 yield return new WaitForSeconds(0.2f);
                 context.bullet.state = EBulletState.Dying;
-                yield return null;
+                yield break;
             }
         }
         bool check(in EBContext context)

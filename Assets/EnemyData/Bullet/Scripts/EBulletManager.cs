@@ -268,4 +268,11 @@ public partial class EBulletManager : MonoBehaviour
         return angle;
     }
 
+    public static float GetAngleToPosition(Vector3 position, Vector3 destination)
+    {
+        Vector2 dir = destination - position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        return angle;
+    }
+
 }

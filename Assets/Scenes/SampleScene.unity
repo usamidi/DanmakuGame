@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7d0fd23f205ec28b07be04a8c039df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPattern: 4
+  currentPattern: 6
   bulletStyleIndex: 0
   player: {fileID: 1382403500}
   bulletSpeed: 4
@@ -929,7 +929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8645270797135754377, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8645270797135754377, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1016,8 +1016,8 @@ MonoBehaviour:
   missTime: 0.1
   missVFX: {fileID: 99511949664567776, guid: 4a98683e9370c5e6eacff56065aea894, type: 3}
   power: 0
---- !u!4 &1382403500 stripped
-Transform:
+--- !u!224 &1382403500 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 8645270797135754377, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
   m_PrefabInstance: {fileID: 1382403492}
   m_PrefabAsset: {fileID: 0}
@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 92f3e68bcda5b33e4af2cfd623e2ffe0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

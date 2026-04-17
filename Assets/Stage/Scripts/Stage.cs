@@ -3,12 +3,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct StageEnemyConfig
+{
+    public int hp;
+    public Vector3 position;
+}
+
 [Serializable]
 public class StageSpawnCommand
 {
     [Header("生成配置")]
     public int enemyPrefabIndex = 0;
-    public Vector3 spawnPosition;
+
+    [Header("敌人配置")]
+    public List<StageEnemyConfig> enemyConfigs = new();
+
     public float delayFromPrevious = 0.15f;
 
     [Header("移动模式")]
@@ -60,7 +70,7 @@ public class Stage : ScriptableObject
                     yield return new WaitForSeconds(cmd.delayFromPrevious);
                 for (int j = 0; j < cmd.number; j++)
                 {
-                    SpawnOne(cmd);
+                    SpawnOneWave(cmd);
                     yield return new WaitForSeconds(cmd.interval);
                 }
             }
@@ -73,10 +83,13 @@ public class Stage : ScriptableObject
         if (clearDelay > 0f) yield return new WaitForSeconds(clearDelay);
     }
 
-    private void SpawnOne(StageSpawnCommand cmd)
+    private void SpawnOneWave(StageSpawnCommand cmd)
     {
         if (EnemyManager.Instance == null) return;
-        Enemy enemy = EnemyManager.Instance.SpawnEnemy(cmd.enemyPrefabIndex, cmd.spawnPosition, cmd.motion, cmd.spawner);
-        if (enemy == null) return;
+
+        foreach (var conf in cmd.enemyConfigs)
+        {
+            EnemyManager.Instance.SpawnEnemy(cmd.enemyPrefabIndex, conf.hp, conf.position, cmd.motion, cmd.spawner);
+        }
     }
 }

@@ -20,34 +20,68 @@ MonoBehaviour:
     preDelay: 0
     spawns:
     - enemyPrefabIndex: 0
-      spawnPosition: {x: 0, y: 5, z: 0}
-      delayFromPrevious: 1
+      enemyConfigs:
+      - hp: 10
+        position: {x: 0, y: 5, z: 0}
+      delayFromPrevious: 2
       motion: {fileID: 11400000, guid: 8aa9c28756865ebb5b36fb63731b6f33, type: 2}
-      number: 5
+      number: 8
       interval: 0.5
-      spawner: {fileID: 11400000, guid: be36728911be3c7dc8d733244aac1e0e, type: 2}
+      spawner: {fileID: 11400000, guid: bc35e3b853c9421299b6bfece0b400b2, type: 2}
     - enemyPrefabIndex: 0
-      spawnPosition: {x: 0, y: 5, z: 0}
-      delayFromPrevious: 1
+      enemyConfigs:
+      - hp: 10
+        position: {x: 0, y: 5, z: 0}
+      delayFromPrevious: 2
       motion: {fileID: 11400000, guid: f2f37702ee138e302b64a062178f0be6, type: 2}
-      number: 5
+      number: 8
       interval: 0.5
-      spawner: {fileID: 11400000, guid: be36728911be3c7dc8d733244aac1e0e, type: 2}
+      spawner: {fileID: 11400000, guid: bc35e3b853c9421299b6bfece0b400b2, type: 2}
     waitUntilNoEnemy: 0
     postDelay: 2
   - waveName: wave2
-    preDelay: 3
+    preDelay: 4
     spawns:
     - enemyPrefabIndex: 0
-      spawnPosition: {x: 3, y: 5, z: 0}
+      enemyConfigs:
+      - hp: 40
+        position: {x: 3.8, y: 5, z: 0}
+      - hp: 40
+        position: {x: -3.8, y: 5, z: 0}
       delayFromPrevious: 0
       motion: {fileID: 11400000, guid: 53c130a1a7f86ead5bf76e605a63875c, type: 2}
       number: 1
       interval: 0
       spawner: {fileID: 11400000, guid: bc35e3b853c9421299b6bfece0b400b2, type: 2}
     - enemyPrefabIndex: 0
-      spawnPosition: {x: -3, y: 5, z: 0}
-      delayFromPrevious: 0
+      enemyConfigs:
+      - hp: 40
+        position: {x: 2.8, y: 5, z: 0}
+      - hp: 40
+        position: {x: -2.8, y: 5, z: 0}
+      delayFromPrevious: 1
+      motion: {fileID: 11400000, guid: 53c130a1a7f86ead5bf76e605a63875c, type: 2}
+      number: 1
+      interval: 0
+      spawner: {fileID: 11400000, guid: bc35e3b853c9421299b6bfece0b400b2, type: 2}
+    - enemyPrefabIndex: 0
+      enemyConfigs:
+      - hp: 40
+        position: {x: 1.8, y: 5, z: 0}
+      - hp: 40
+        position: {x: -1.8, y: 5, z: 0}
+      delayFromPrevious: 1
+      motion: {fileID: 11400000, guid: 53c130a1a7f86ead5bf76e605a63875c, type: 2}
+      number: 1
+      interval: 0
+      spawner: {fileID: 11400000, guid: bc35e3b853c9421299b6bfece0b400b2, type: 2}
+    - enemyPrefabIndex: 0
+      enemyConfigs:
+      - hp: 40
+        position: {x: 0.8, y: 5, z: 0}
+      - hp: 40
+        position: {x: -0.8, y: 5, z: 0}
+      delayFromPrevious: 1
       motion: {fileID: 11400000, guid: 53c130a1a7f86ead5bf76e605a63875c, type: 2}
       number: 1
       interval: 0
