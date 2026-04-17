@@ -522,12 +522,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615975717}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff7d0fd23f205ec28b07be04a8c039df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPattern: 6
+  currentPattern: 7
   bulletStyleIndex: 0
   player: {fileID: 1382403500}
   bulletSpeed: 4
@@ -553,6 +553,20 @@ MonoBehaviour:
   maxWaitTime: 3
   moveSpeed: 2
   range: {x: 2, y: 0.75}
+--- !u!114 &615975722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615975717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d97aa3e1b3d8c82a9e37d2edce6423f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 11400000, guid: 55bca0bfac6af83119a34951fed3e88e, type: 2}
+  player: {fileID: 1382403496}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +684,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bd406041466dc0746b610ac133f53be7, type: 2}
   - {fileID: 11400000, guid: 3ebee0d674aaf4a0881025a4d9a2f5f1, type: 2}
   - {fileID: 11400000, guid: 07c0b4d3c65f23abf8dac39820568cf6, type: 2}
+  - {fileID: 11400000, guid: 7d4c4794d91ef91049e573d184597284, type: 2}
   grazeNum: 0
   grazeUI: {fileID: 1794295705}
   missNum: 0
@@ -843,6 +858,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7727957161322687865, guid: 770573924a1400888b6ed517a51479e7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 615975720}
+    - targetCorrespondingSourceObject: {fileID: 7727957161322687865, guid: 770573924a1400888b6ed517a51479e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 615975722}
   m_SourcePrefab: {fileID: 100100000, guid: 770573924a1400888b6ed517a51479e7, type: 3}
 --- !u!1 &1226435580
 GameObject:

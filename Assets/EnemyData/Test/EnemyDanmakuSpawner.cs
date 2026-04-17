@@ -12,6 +12,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
         SepllCard2,
         SepllCard3,
         SepllCard4,
+        SepllCard5,
     }
 
     [Header("=== 基础设置 ===")]
@@ -81,6 +82,9 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 break;
             case PatternType.SepllCard4:
                 activePattern = StartCoroutine(SpellCard4());
+                break;
+            case PatternType.SepllCard5:
+                activePattern = StartCoroutine(SpellCard5());
                 break;
         }
     }
@@ -234,8 +238,9 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                     //BulletManager.Instance.SpawnBullet(bulletStyleIndex, transform.position + offsetPos, finalAngle, speed, bulletColor);
                 }
 
-                EBulletManager.Instance.SpawnBullet(batch.Packed(1, new Vector3(255f, 255f, 0f)
-                      ).AttachCallBack(check, (context) => generate(context)));
+                EBulletManager.Instance.SpawnBullet(
+                    batch.AttachCallBack(check, (context) => generate(context)
+                      ).Packed(1, new Vector3(255f, 255f, 0f)));
 
                 // 爆发弹通常需要蓄力/间隔长一点
                 yield return new WaitForSeconds(0.1f);
@@ -352,8 +357,8 @@ public class EnemyDanmakuSpawner : MonoBehaviour
             }
 
             EBulletManager.Instance.SpawnBullet(
-                batch.Packed(3, new Vector3(255f, 255f, 0f)
-                  ).AttachCallBack(check, (context) => generate(context))
+                batch.AttachCallBack(check, (context) => generate(context)
+                  ).Packed(3, new Vector3(255f, 255f, 0f))
                 );
 
             // 爆发弹通常需要蓄力/间隔长一点
@@ -409,8 +414,9 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 batch.AddBullet(new Vector3(finalPos, 3.5f, 0f) + offsetPos, speed, 270f);
             }
 
-            EBulletManager.Instance.SpawnBullet(batch.Packed(0, new Vector3(255f, 255f, 0f)
-                  ).AttachCallBack(check, (context) => generate(context)));
+            EBulletManager.Instance.SpawnBullet(
+                batch.AttachCallBack(check, (context) => generate(context)
+                  ).Packed(0, new Vector3(255f, 255f, 0f)));
 
             // 爆发弹通常需要蓄力/间隔长一点
             yield return new WaitForSeconds(0.2f);
@@ -460,15 +466,48 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 }
 
                 EBulletManager.Instance.SpawnBullet(
-                    batch.Packed(2, new Vector3(255f, 255f, 0f)
-                      ).AttachCallBack(check, (context) => generate(context))
-                    );
+                    batch.AttachCallBack(check, (context) => generate(context)
+                      ).Packed(2, new Vector3(255f, 255f, 0f)));
 
                 // 爆发弹通常需要蓄力/间隔长一点
                 yield return new WaitForSeconds(0.06f);
             }
             yield return new WaitForSeconds(0.3f);
         }
+    }
+
+    private IEnumerator SpellCard5()
+    {
+        int bulletCount = 280; // 一圈 36 发 (每 10 度一发)
+
+        float angleStep = 360f / bulletCount;
+
+        float offsetAng = 0f;
+
+        while (true)
+        {
+            for (int k = 0; k < 12; k++)
+            {
+                offsetAng += 15f;
+                EBulletBatch batch = new EBulletBatch();
+                for (int i = 0; i < bulletCount; i++)
+                {
+                    float finalAngle = angleStep * i + offsetAng;
+                    float radians = finalAngle * Mathf.Deg2Rad;
+                    Vector3 offsetPos = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0).normalized * 0.1f;
+
+                    batch.AddBullet(transform.position + offsetPos, 1f, finalAngle);
+                    //BulletManager.Instance.SpawnBullet(bulletStyleIndex, transform.position + offsetPos, finalAngle, speed, bulletColor);
+                }
+
+                EBulletManager.Instance.SpawnBullet(
+                    batch.Packed(4, new Vector3(255f, 255f, 0f)));
+
+                yield return new WaitForSeconds(0.08f);
+            }
+            yield return new WaitForSeconds(6f);
+        }
+
     }
 
 

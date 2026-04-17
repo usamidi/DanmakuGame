@@ -88,3 +88,40 @@ MonoBehaviour:
       spawner: {fileID: 11400000, guid: bc35e3b853c9421299b6bfece0b400b2, type: 2}
     waitUntilNoEnemy: 0
     postDelay: 2
+  - waveName: wave3
+    preDelay: 4
+    spawns:
+    - enemyPrefabIndex: 0
+      enemyConfigs:
+      - hp: 60
+        position: {x: -2.5, y: 5, z: 0}
+      delayFromPrevious: 0
+      motion: {fileID: 11400000, guid: 23f22b2c54535500d9675eff0a55a4b1, type: 2}
+      number: 1
+      interval: 0
+      spawner: {fileID: 11400000, guid: 53ddff3ad68198a9ebb731365ddf476c, type: 2}
+    - enemyPrefabIndex: 0
+      enemyConfigs:
+      - hp: 60
+        position: {x: 2.5, y: 5, z: 0}
+      delayFromPrevious: 16
+      motion: {fileID: 11400000, guid: 23f22b2c54535500d9675eff0a55a4b1, type: 2}
+      number: 1
+      interval: 0
+      spawner: {fileID: 11400000, guid: 53ddff3ad68198a9ebb731365ddf476c, type: 2}
+    waitUntilNoEnemy: 0
+    postDelay: 10
+  - waveName: wave4
+    preDelay: 4
+    spawns:
+    - enemyPrefabIndex: 0
+      enemyConfigs:
+      - hp: 120
+        position: {x: 0, y: 5, z: 0}
+      delayFromPrevious: 0
+      motion: {fileID: 11400000, guid: 606edf05c1277cdfe9c5cfe826dfcbe0, type: 2}
+      number: 1
+      interval: 0
+      spawner: {fileID: 11400000, guid: 55bca0bfac6af83119a34951fed3e88e, type: 2}
+    waitUntilNoEnemy: 0
+    postDelay: 2
