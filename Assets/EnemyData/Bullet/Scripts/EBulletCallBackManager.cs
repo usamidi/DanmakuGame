@@ -13,9 +13,16 @@ public struct EBContext
 
 public delegate bool EBConditionFunc(in EBContext context);
 
-public class EBDataWrapper
+public struct EBCallBackInfo
 {
-    public EBulletData bullet;
+    public EBConditionFunc condition;
+    public Func<EBContext, IEnumerator> func;
+
+    public EBCallBackInfo(EBConditionFunc condition, Func<EBContext, IEnumerator> func)
+    {
+        this.condition = condition;
+        this.func = func;
+    }
 }
 
 public class EBulletCallBackManager : MonoBehaviour
@@ -59,7 +66,7 @@ public class EBulletCallBackManager : MonoBehaviour
         return false;
     }
 
-    public void ClearTable(Func<EBContext, IEnumerator> func, in EBulletRenderBatch batch)
+    public void ClearTable(in EBulletRenderBatch batch)
     {
         if (coroutines.ContainsKey(batch))
         {
@@ -74,9 +81,15 @@ public class EBulletCallBackManager : MonoBehaviour
             coroutines.Remove(batch);
         }
 
-        foreach (var b in batch.bullets)
+        foreach (var (infos, bullets) in batch.bulletsTable)
         {
-            visitTable[func].Remove(b);
+            foreach (var info in infos)
+            {
+                foreach (var b in bullets)
+                {
+                    visitTable[info.func].Remove(b);
+                }
+            }
         }
     }
 

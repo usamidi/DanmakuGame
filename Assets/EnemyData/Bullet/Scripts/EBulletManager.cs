@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -115,8 +116,10 @@ public struct EBulletAppearance
 
 public class EBulletBatch
 {
-    // 计时器
+    public EBulletAppearance appearance;
     public List<EBulletData> bulletBatch;
+    public HashSet<EBCallBackInfo> callBacks = new();
+
 
     public EBulletBatch()
     {
@@ -136,16 +139,28 @@ public class EBulletBatch
         return this;
     }
 
+    public EBulletBatch AttachCallBack(EBConditionFunc condition, Func<EBContext, IEnumerator> func)
+    {
+        callBacks.Add(new EBCallBackInfo(condition, func));
+        return this;
+    }
+
     public EBulletRenderBatch Packed(int styleIndex, Vector3 color)
     {
         if (BulletNum() == 0) return null;
         if (BulletNum() > 1023) return null;
 
-        EBulletRenderBatch renderBatch = EBulletManager.Instance.GetRenderBatch();
+        appearance.style = styleIndex;
+        appearance.color = color;
 
-        renderBatch.bullets = bulletBatch;
-        renderBatch.appearance.color = color;
-        renderBatch.appearance.style = styleIndex;
+        EBulletRenderBatch renderBatch = EBulletManager.Instance.FindSameBatch(this);
+        if (renderBatch == null)
+        {
+            renderBatch = EBulletManager.Instance.GetRenderBatch();
+            renderBatch.appearance = appearance;
+        }
+
+        renderBatch.AddBullets(bulletBatch, callBacks);
 
         return renderBatch;
     }
@@ -232,8 +247,8 @@ public partial class EBulletManager : MonoBehaviour
         // 测试输入
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            float angle1 = Random.Range(0f, 360f);
-            float angle2 = Random.Range(0f, 360f);
+            float angle1 = UnityEngine.Random.Range(0f, 360f);
+            float angle2 = UnityEngine.Random.Range(0f, 360f);
             //EBulletBatch batch2 = new EBulletBatch(new Vector3(255f, 10f, 10f));
             EBulletBatch batch2 = new EBulletBatch();
             batch2.AddBullet(
