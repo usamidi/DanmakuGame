@@ -306,7 +306,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.68444264, g: 0.6886792, b: 0.41255784, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7d0fd23f205ec28b07be04a8c039df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPattern: 7
+  currentPattern: 3
   bulletStyleIndex: 0
   player: {fileID: 1382403500}
   bulletSpeed: 4
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d97aa3e1b3d8c82a9e37d2edce6423f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 11400000, guid: 55bca0bfac6af83119a34951fed3e88e, type: 2}
+  spawner: {fileID: 11400000, guid: 82dfec442cbdf2ef894085407bb09702, type: 2}
   player: {fileID: 1382403496}
 --- !u!1 &619394800
 GameObject:
@@ -680,11 +680,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registeredStyles:
-  - {fileID: 11400000, guid: e7feae75ecbd615abaea802f22848e49, type: 2}
-  - {fileID: 11400000, guid: bd406041466dc0746b610ac133f53be7, type: 2}
-  - {fileID: 11400000, guid: 3ebee0d674aaf4a0881025a4d9a2f5f1, type: 2}
-  - {fileID: 11400000, guid: 07c0b4d3c65f23abf8dac39820568cf6, type: 2}
-  - {fileID: 11400000, guid: 7d4c4794d91ef91049e573d184597284, type: 2}
+  - name: Small-1
+    style: {fileID: 11400000, guid: e7feae75ecbd615abaea802f22848e49, type: 2}
+  - name: Small-2
+    style: {fileID: 11400000, guid: 3b51f0ca78e963c0a8c2f0864c17fa88, type: 2}
+  - name: Rice
+    style: {fileID: 11400000, guid: 3ebee0d674aaf4a0881025a4d9a2f5f1, type: 2}
+  - name: Chain
+    style: {fileID: 11400000, guid: bd406041466dc0746b610ac133f53be7, type: 2}
+  - name: Big
+    style: {fileID: 11400000, guid: 07c0b4d3c65f23abf8dac39820568cf6, type: 2}
+  - name: Mini-1
+    style: {fileID: 11400000, guid: 7d4c4794d91ef91049e573d184597284, type: 2}
+  - name: Scale
+    style: {fileID: 11400000, guid: f665bd308e121332ebb1dd8e471aeae1, type: 2}
+  - name: Amulet
+    style: {fileID: 11400000, guid: f5a5e10671799a97fab2b4c386220efb, type: 2}
+  - name: Crystal
+    style: {fileID: 11400000, guid: 1a12d31ee2f579ce0b6c8d8a2e305ed9, type: 2}
   grazeNum: 0
   grazeUI: {fileID: 1794295705}
   missNum: 0

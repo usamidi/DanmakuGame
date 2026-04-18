@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "Wave3", menuName = "STG/Bullet Spawn/Wave/3-A")]
+[CreateAssetMenu(fileName = "Wave3-A", menuName = "STG/Bullet Spawn/Wave/3-A")]
 [System.Serializable]
-public class Wave3 : EnemyBulletSpawner
+public class Wave3A : EnemyBulletSpawner
 {
     public override IEnumerator BulletSpawn(ESContext context)
     {
@@ -31,7 +31,7 @@ public class Wave3 : EnemyBulletSpawner
                 }
 
                 EBulletManager.Instance.SpawnBullet(
-                    batch.Packed(2, new Vector3(255f, 255f, 0f)));
+                    batch.Packed("Rice", new Vector3(0f, 0f, 255f)));
 
                 yield return new WaitForSeconds(0.05f);
             }
