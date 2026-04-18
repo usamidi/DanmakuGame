@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65137cad46354847db1e5fda75998356, type: 3}
-  m_Name: Style2
+  m_Name: SAmulet
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 1ca512d500aaeaf0ebacf76c5b70df80, type: 2}
-  mesh: {fileID: 4300000, guid: 93199417b7e4ec041964250bd7f723cb, type: 2}
-  visualScale: 0.15
-  hitboxRadius: 0.05
+  material: {fileID: 2100000, guid: bb6324da572e42cd28ff2e6076ab01af, type: 2}
+  mesh: {fileID: 4300000, guid: 45cf291fd052bc178b4caedb8ffe3d49, type: 2}
+  visualScale: 0.28
+  hitboxRadius: 0.02
   visualAngleOffset: -90
   zDepth: -1
   maxCount: 2000

@@ -4,6 +4,9 @@ Shader "Custom/InstancedColorShader"
     {
         _Color ("Main Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
+        _SoftnessMin ("Range Min", Range(0, 1)) = 0.7
+        _SoftnessMax ("Range Max", Range(0, 1)) = 0.9
+        _TransparencyPower  ("Transparency Power", Range(0, 1.0)) = 0.01
         //_MainTex ("Base (RGB)", 2D) = "white" {}
     }
     SubShader
@@ -46,6 +49,8 @@ Shader "Custom/InstancedColorShader"
             UNITY_INSTANCING_BUFFER_END(Props)
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _SoftnessMin, _SoftnessMax;
+            float _TransparencyPower;
 
             v2f vert (appdata v) {
                 v2f o;
@@ -58,9 +63,19 @@ Shader "Custom/InstancedColorShader"
 
             fixed4 frag (v2f i) : SV_Target {
                 UNITY_SETUP_INSTANCE_ID(i); // 关键：在片元着色器中也要设置ID
-                // 关键：根据实例ID获取对应的颜色
-                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color) * tex2D(_MainTex, i.uv);
-                return color;
+
+                fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+
+                // 计算亮度 (0为黑，1为白)
+                float luminance = dot(col.rgb, float3(0.299, 0.587, 0.114));
+
+                float alpha = smoothstep(0.3, 1.0, pow(luminance, _TransparencyPower)) * col.a;
+                float edge = smoothstep(_SoftnessMin, _SoftnessMax, luminance);
+
+                fixed3 tintedRGB = lerp(color.rgb, col.rgb, edge);
+
+                return fixed4(tintedRGB, alpha * color.a);
             }
             ENDCG
         }
