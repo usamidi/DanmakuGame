@@ -188,7 +188,7 @@ public partial class EBulletManager : MonoBehaviour
                             if (t >= 1f) b.state = EBulletState.Normal;
                             else
                             {
-                                currentScale = Mathf.Lerp(style.visualScale * 2f, style.visualScale, t);
+                                currentScale = Mathf.Lerp(style.visualScale * 3f, style.visualScale, t);
                                 currentAlpha = t;
                             }
                             break;

@@ -129,7 +129,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                     //BulletManager.Instance.SpawnBullet(bulletStyleIndex, transform.position, currentAngle, bulletSpeed, bulletColor);
                 }
                 //EBulletManager.Instance.SpawnBullet(batch, bulletStyleIndex, bulletColor);
-                EBulletManager.Instance.SpawnBullet(batch.Packed(1, new Vector3(255f, 10f, 10f)));
+                EBulletManager.Instance.SpawnBullet(batch.Packed("Rice", new Vector3(255f, 10f, 10f)));
 
                 // 4. 等待一段时间再次发射
                 yield return new WaitForSeconds(0.015f);
@@ -159,7 +159,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 batch.AddBullet(transform.position, bulletSpeed, finalAngle);
                 //BulletManager.Instance.SpawnBullet(bulletStyleIndex, transform.position, finalAngle, bulletSpeed, bulletColor);
             }
-            EBulletManager.Instance.SpawnBullet(batch.Packed(1, new Vector3(0f, 0f, 255f)));
+            EBulletManager.Instance.SpawnBullet(batch.Packed("Rice", new Vector3(0f, 0f, 255f)));
 
             // 每次发射后，让偏移量增加，形成螺旋效果
             currentRotation += spiralSpinSpeed;
@@ -240,7 +240,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
                 EBulletManager.Instance.SpawnBullet(
                     batch.AttachCallBack(check, (context) => generate(context)
-                      ).Packed(1, new Vector3(255f, 255f, 0f)));
+                      ).Packed("Scale", new Vector3(0f, 255f, 0f)));
 
                 // 爆发弹通常需要蓄力/间隔长一点
                 yield return new WaitForSeconds(0.1f);
@@ -272,7 +272,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                     pos2 + new Vector3(transform.position.x + 0.5f, transform.position.y, 1f), speed2, angle2
                 );
             }
-            EBulletManager.Instance.SpawnBullet(batch.Packed(0, new Vector3(0, 0, 255f)));
+            EBulletManager.Instance.SpawnBullet(batch.Packed("Small-1", new Vector3(0, 0, 255f)));
             yield return new WaitForSeconds(0.3f);
         }
     }
@@ -329,8 +329,8 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                     );
                 }
 
-                EBulletManager.Instance.SpawnBullet(batch1.Packed(0, new Vector3(0, 0, 233f)));
-                EBulletManager.Instance.SpawnBullet(batch2.Packed(2, new Vector3(233f, 0, 233f)));
+                EBulletManager.Instance.SpawnBullet(batch1.Packed("Small-1", new Vector3(0, 0, 233f)));
+                EBulletManager.Instance.SpawnBullet(batch2.Packed("Small-2", new Vector3(233f, 0, 233f)));
 
                 yield return new WaitForSeconds(0.2f);
                 context.bullet.state = EBulletState.Dying;
@@ -358,7 +358,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
             EBulletManager.Instance.SpawnBullet(
                 batch.AttachCallBack(check, (context) => generate(context)
-                  ).Packed(3, new Vector3(255f, 255f, 0f))
+                  ).Packed("Big", new Vector3(255f, 0f, 0f))
                 );
 
             // 爆发弹通常需要蓄力/间隔长一点
@@ -387,7 +387,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 float finalAngle = angle;
                 batch.AddBullet(context.bullet.position, speed, finalAngle);
             }
-            EBulletManager.Instance.SpawnBullet(batch.Packed(2, new Vector3(9f, 247f, 247f)));
+            EBulletManager.Instance.SpawnBullet(batch.Packed("Rice", new Vector3(9f, 247f, 247f)));
             yield break;
         }
 
@@ -416,7 +416,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
             EBulletManager.Instance.SpawnBullet(
                 batch.AttachCallBack(check, (context) => generate(context)
-                  ).Packed(0, new Vector3(255f, 255f, 0f)));
+                  ).Packed("Small-1", new Vector3(255f, 255f, 0f)));
 
             // 爆发弹通常需要蓄力/间隔长一点
             yield return new WaitForSeconds(0.2f);
@@ -441,7 +441,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 float finalAngle = angle + offsetAng;
                 batch.AddBullet(context.bullet.position, 3.2f, finalAngle);
             }
-            EBulletManager.Instance.SpawnBullet(batch.Packed(2, new Vector3(9f, 247f, 247f)));
+            EBulletManager.Instance.SpawnBullet(batch.Packed("Chain", new Vector3(9f, 247f, 247f)));
             yield break;
         }
         bool check(in EBContext context)
@@ -467,7 +467,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
                 EBulletManager.Instance.SpawnBullet(
                     batch.AttachCallBack(check, (context) => generate(context)
-                      ).Packed(2, new Vector3(255f, 255f, 0f)));
+                      ).Packed("Chain", new Vector3(255f, 255f, 0f)));
 
                 // 爆发弹通常需要蓄力/间隔长一点
                 yield return new WaitForSeconds(0.06f);
@@ -501,7 +501,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
                 }
 
                 EBulletManager.Instance.SpawnBullet(
-                    batch.Packed(4, new Vector3(255f, 255f, 0f)));
+                    batch.Packed("Scale", new Vector3(255f, 255f, 0f)));
 
                 yield return new WaitForSeconds(0.08f);
             }

@@ -31,7 +31,7 @@ public class Wave4 : EnemyBulletSpawner
             }
 
             EBulletManager.Instance.SpawnBullet(
-                batch.Packed(1, new Vector3(255f, 255f, 0f)));
+                batch.Packed("Chain", new Vector3(102f, 0f, 204f)));
 
             yield return new WaitForSeconds(0.03f);
             param += 1.2f;

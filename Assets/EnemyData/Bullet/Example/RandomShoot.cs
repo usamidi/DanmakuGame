@@ -7,8 +7,8 @@ using UnityEngine;
 [System.Serializable]
 public class ERandomShoot : EnemyBulletSpawner
 {
-    [Header("弹幕样式编号")]
-    public int style;
+    [Header("弹幕样式名称")]
+    public string style;
 
     [Header("弹幕深度")]
     public float depth = 1f;

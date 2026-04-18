@@ -103,10 +103,10 @@ public class EBulletData
 
 public struct EBulletAppearance
 {
-    public int style;
+    public string style;
     public Vector3 color;
 
-    public EBulletAppearance(int s, Vector3 clr)
+    public EBulletAppearance(string s, Vector3 clr)
     {
         style = s;
         color = clr;
@@ -145,12 +145,12 @@ public class EBulletBatch
         return this;
     }
 
-    public EBulletRenderBatch Packed(int styleIndex, Vector3 color)
+    public EBulletRenderBatch Packed(string styleName, Vector3 color)
     {
         if (BulletNum() == 0) return null;
         if (BulletNum() > 1023) return null;
 
-        appearance.style = styleIndex;
+        appearance.style = styleName;
         appearance.color = color;
 
         EBulletRenderBatch renderBatch = EBulletManager.Instance.FindSameBatch(this);
@@ -167,6 +167,13 @@ public class EBulletBatch
 
 }
 
+[System.Serializable]
+public struct StylePair
+{
+    public string name;
+    public EBulletStyle style;
+}
+
 public partial class EBulletManager : MonoBehaviour
 {
     public static EBulletManager Instance;
@@ -174,7 +181,9 @@ public partial class EBulletManager : MonoBehaviour
 
     [Header("=== 注册所有子弹类型 ===")]
     [Tooltip("将你创建的所有 BulletStyle ScriptableObject 拖到这个数组里")]
-    public EBulletStyle[] registeredStyles;
+    public List<StylePair> registeredStyles;
+
+    private Dictionary<string, EBulletStyle> styleDict = new();
 
     [Header("=== 擦弹计数器 ===")]
     public uint grazeNum = 0;
@@ -215,16 +224,25 @@ public partial class EBulletManager : MonoBehaviour
         //renderBatches.Add(renderBatch);
     }
 
-    public EBulletStyle GetBulletStyle(int index)
+    public EBulletStyle GetBulletStyle(string name)
     {
-        return registeredStyles[index];
+        return styleDict[name];
 
+    }
+    private void initStyleMap()
+    {
+
+        foreach (var pair in registeredStyles)
+        {
+            styleDict[pair.name] = pair.style;
+        }
     }
 
     void Awake()
     {
         Instance = this;
         initObjectPool();
+        initStyleMap();
     }
 
     // Start is called before the first frame update
@@ -233,7 +251,7 @@ public partial class EBulletManager : MonoBehaviour
         //EBulletBatch batch1 = new EBulletBatch(new Vector3(255f, 10f, 10f));
         EBulletBatch batch1 = new EBulletBatch();
         batch1.AddBullet(new Vector3(0f, 0f, 0f), 1f, 90f);
-        SpawnBullet(batch1.Packed(0, new Vector3(255, 255, 0)));
+        SpawnBullet(batch1.Packed("Small-1", new Vector3(255, 255, 0)));
 
         // UI init
         grazeUI.SetGraze(grazeNum);
@@ -257,7 +275,7 @@ public partial class EBulletManager : MonoBehaviour
                 new Vector3(1f, 0f, 0f), 1f, angle2
             );
 
-            SpawnBullet(batch2.Packed(0, new Vector3(255, 0, 255)));
+            SpawnBullet(batch2.Packed("Small-2", new Vector3(255, 0, 255)));
         }
 
         if (Input.GetKeyDown(KeyCode.D))

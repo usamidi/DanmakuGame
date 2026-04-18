@@ -34,7 +34,7 @@ public class AimingSpread : EnemyBulletSpawner
                 batch.AddBullet(
                     firePos, finalSpeed, currentAngle);
             }
-            EBulletManager.Instance.SpawnBullet(batch.Packed(1, new Vector3(255f, 10f, 10f)));
+            EBulletManager.Instance.SpawnBullet(batch.Packed("Chain", new Vector3(0f, 0f, 255f)));
 
             yield return new WaitForSeconds(0.015f);
         }
