@@ -12,6 +12,8 @@ public enum PlayerState
 
 public partial class Player : MonoBehaviour
 {
+    public static Player instance;
+
     [Header("移动设置")]
     [SerializeField] private float normalSpeed = 10f;
     [SerializeField] private float focusSpeed = 4f;
@@ -102,6 +104,7 @@ public partial class Player : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        instance = this;
     }
 
     void Start()
