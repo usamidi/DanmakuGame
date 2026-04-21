@@ -96,6 +96,33 @@ public class EBulletData
         reflectTimes = 0;
     }
 
+    public float GetReflectAngle()
+    {
+        Vector2 incomingDirection = (Vector2)velocity;
+        Vector2 normal;
+        switch (boundType)
+        {
+            case EBBoundType.Left:
+                normal = Vector2.right;
+                break;
+            case EBBoundType.Right:
+                normal = Vector2.left;
+                break;
+            case EBBoundType.Top:
+                normal = Vector2.down;
+                break;
+            case EBBoundType.Bottom:
+                normal = Vector2.up;
+                break;
+            default:
+                return 0f;
+        }
+        Vector2 reflectedDirection = Vector2.Reflect(incomingDirection, normal);
+
+        // 得到新角度
+        return Mathf.Atan2(reflectedDirection.y, reflectedDirection.x) * Mathf.Rad2Deg;
+    }
+
 
 }
 
@@ -243,6 +270,9 @@ public partial class EBulletManager : MonoBehaviour
         Instance = this;
         initObjectPool();
         initStyleMap();
+
+        InitLaserList();
+        InitLaserStyleMap();      // ← 新增
     }
 
     // Start is called before the first frame update
@@ -260,7 +290,11 @@ public partial class EBulletManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 playerPos = playerTransform != null
+          ? (Vector2)playerTransform.position : Vector2.zero;
+
         renderBullet();
+        UpdateLasers(Time.deltaTime, playerPos);   // ← 新增
 
         // 测试输入
         if (Input.GetKeyDown(KeyCode.Space))
@@ -276,6 +310,10 @@ public partial class EBulletManager : MonoBehaviour
             );
 
             SpawnBullet(batch2.Packed("Small-2", new Vector3(255, 0, 255)));
+
+            EBulletManager.Instance.SpawnInstantLaser("Rice", new Vector3(0f, 3.5f, 0f), 3f,
+            EBulletManager.GetAngleToPosition(new Vector3(0f, 3.5f, 0f), player.transform.position),
+              4f, 0.3f, new Vector3(255f, 0f, 0f));        // 被切一次后不再切
         }
 
         if (Input.GetKeyDown(KeyCode.D))

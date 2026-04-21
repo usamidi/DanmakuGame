@@ -155,6 +155,7 @@ Transform:
   - {fileID: 823437116}
   - {fileID: 1226435581}
   - {fileID: 1576288480}
+  - {fileID: 139169991}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &50353820
@@ -225,6 +226,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &139169990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 139169991}
+  - component: {fileID: 139169992}
+  m_Layer: 0
+  m_Name: ItemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &139169991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139169990}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 33336351}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &139169992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139169990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8556a2cf4ba4889ad5ed7580f7c471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemMesh: {fileID: 0}
+  itemMaterial: {fileID: 0}
+  fallSpeed: 3
+  collectionRadius: 0.5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,8 +354,8 @@ Camera:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.68444264, g: 0.6886792, b: 0.41255784, a: 0}
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.1273585, g: 0.1273585, b: 0.1273585, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -565,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d97aa3e1b3d8c82a9e37d2edce6423f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 11400000, guid: 82dfec442cbdf2ef894085407bb09702, type: 2}
+  spawner: {fileID: 11400000, guid: a9b7b86b1cfdd271788b521ef884e628, type: 2}
   player: {fileID: 1382403496}
 --- !u!1 &619394800
 GameObject:
@@ -698,6 +747,12 @@ MonoBehaviour:
     style: {fileID: 11400000, guid: f5a5e10671799a97fab2b4c386220efb, type: 2}
   - name: Crystal
     style: {fileID: 11400000, guid: 1a12d31ee2f579ce0b6c8d8a2e305ed9, type: 2}
+  - name: StarBig
+    style: {fileID: 11400000, guid: cd92cee3f06377cbda449c919c836933, type: 2}
+  - name: Knife
+    style: {fileID: 11400000, guid: e64d1a7ad643c4dc1868d92114c40367, type: 2}
+  - name: Butterfly
+    style: {fileID: 11400000, guid: 2164cd0f6b802424dab9404acef1b92a, type: 2}
   grazeNum: 0
   grazeUI: {fileID: 1794295705}
   missNum: 0
@@ -710,6 +765,17 @@ MonoBehaviour:
   boundsMax: {x: 4, y: 4}
   destroyVFX: {fileID: 5491531598064632415, guid: 9331fc44405ff564bba6134d283fc15e, type: 3}
   grazeVFX: {fileID: 8206458348719496558, guid: aa5a23f00cd5eb497a0da71c18d3557c, type: 3}
+  registeredLaserStyles:
+  - name: Rice
+    style: {fileID: 11400000, guid: 441f85a59cfc8d1489c2e836be8a6e9d, type: 2}
+  - name: Laser
+    style: {fileID: 11400000, guid: 7d7c1cf79e24a0233a8f7e468b74f9e2, type: 2}
+  spawnDuration: 0.3
+  dieDuration: 0.2
+  warningWidth: 0.05
+  warningDuration: 0.3
+  widenDuration: 0.3
+  warningSpeed: 16
 --- !u!4 &620895665
 Transform:
   m_ObjectHideFlags: 0

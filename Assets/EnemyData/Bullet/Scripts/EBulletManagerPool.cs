@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 
-
 public partial class EBulletManager : MonoBehaviour
 {
     private IObjectPool<EBulletRenderBatch> pool;

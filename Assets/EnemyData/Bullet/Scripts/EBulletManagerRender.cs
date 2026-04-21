@@ -161,19 +161,6 @@ public partial class EBulletManager : MonoBehaviour
                     EBulletData b = bullets[j];
                     b.timer += dt;
 
-                    context.bullet = b;
-
-                    // CallBack
-                    foreach (var info in infos)
-                    {
-                        var condition = info.condition;
-                        var f = info.func;
-                        if (condition(in context) && EBulletCallBackManager.Instance.CheckOnce(f, b))
-                        {
-                            callbacks.Add((f(context), batch));
-                        }
-                    }
-
                     currentAlpha = 1f;
                     currentScale = style.visualScale;
 
@@ -276,6 +263,19 @@ public partial class EBulletManager : MonoBehaviour
                             }
                             break;
                     }
+
+                    context.bullet = b;
+                    // CallBack
+                    foreach (var info in infos)
+                    {
+                        var condition = info.condition;
+                        var f = info.func;
+                        if (condition(in context) && EBulletCallBackManager.Instance.CheckOnce(f, b))
+                        {
+                            callbacks.Add((f(context), batch));
+                        }
+                    }
+
 
                     Vector4 poolColor = batch.appearance.color / 255.0f;
                     poolColor.w = currentAlpha;

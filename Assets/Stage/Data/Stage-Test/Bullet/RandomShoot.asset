@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b978170ef55f510eeaf2be185486d541, type: 3}
   m_Name: RandomShoot
   m_EditorClassIdentifier: Assembly-CSharp::ERandomShoot
-  style: Scale
+  style: Butterfly
   depth: 0
   color: {x: 204, y: 0, z: 102}
   bulletCount: 8
