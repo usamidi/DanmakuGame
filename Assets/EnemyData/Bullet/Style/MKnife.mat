@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MSmall-1
+  m_Name: MKnife
   m_Shader: {fileID: 4800000, guid: c86379718334c7b19a5ac10b19f157d3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,15 +24,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c452b296ba4fb42a7a052bc0f686e440, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6c3e7efc1e5b41915a4d7e6d74163b40, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _SoftnessMax: 0.8
-    - _SoftnessMin: 0.2
+    - _SoftnessMax: 1
+    - _SoftnessMin: 0.25
     - _Threshold: 0.8
-    - _TransparencyPower: 0.01
+    - _TransparencyPower: 0.05
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

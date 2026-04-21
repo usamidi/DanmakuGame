@@ -149,6 +149,40 @@ public class STGMeshGenerator
     }
 
     // ==========================================
+    // 5. 生成方形 Mesh
+    // ==========================================
+    [MenuItem("Tools/STG Mesh/Create Square")]
+    public static void CreateSquareMesh()
+    {
+        Mesh mesh = new Mesh();
+        mesh.name = "Square";
+
+        // 顶点：以中心为原点，0.5为半宽/半高
+        mesh.vertices = new Vector3[] {
+            new Vector3(-0.5f, -0.5f, 0), // 左下
+            new Vector3( 0.5f, -0.5f, 0), // 右下
+            new Vector3( 0.5f,  0.5f, 0), // 右上
+            new Vector3(-0.5f,  0.5f, 0)  // 左上
+        };
+
+        // UV：完整映射 0 到 1
+        mesh.uv = new Vector2[] {
+            new Vector2(0, 0),
+            new Vector2(1, 0),
+            new Vector2(1, 1),
+            new Vector2(0, 1)
+        };
+
+        // 两个三角形拼成正方形
+        mesh.triangles = new int[] {
+            0, 2, 1, // 第一个三角形
+            0, 3, 2  // 第二个三角形
+        };
+
+        SaveMeshAsset(mesh, "SquareMesh");
+    }
+
+    // ==========================================
     // 保存逻辑：将 Mesh 写入 Assets 文件夹
     // ==========================================
     private static void SaveMeshAsset(Mesh mesh, string defaultName)

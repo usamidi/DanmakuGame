@@ -6,7 +6,9 @@ Shader "Custom/InstancedColorShader"
         _MainTex ("Texture", 2D) = "white" {}
         _SoftnessMin ("Range Min", Range(0, 1)) = 0.7
         _SoftnessMax ("Range Max", Range(0, 1)) = 0.9
+        _SmoothPower ("光滑指数", Range(0, 1.0)) = 0.8
         _TransparencyPower  ("Transparency Power", Range(0, 1.0)) = 0.01
+        _Rotation ("Rotation (Degrees)", Range(0, 360)) = 0
         //_MainTex ("Base (RGB)", 2D) = "white" {}
     }
     SubShader
@@ -51,13 +53,30 @@ Shader "Custom/InstancedColorShader"
             float4 _MainTex_ST;
             float _SoftnessMin, _SoftnessMax;
             float _TransparencyPower;
+            float _SmoothPower;
+            float _Rotation;
+            // 辅助函数：旋转 UV
+            
+            float2 RotateUV (float2 uv, float rotation) {
+                // 将角度转为弧度
+                float angle = radians(rotation);
+                float s, c;
+                sincos(angle, s, c);
+                // 构造旋转矩阵
+                float2x2 rotationMatrix = float2x2(c, -s, s, c);
+                // 旋转需要以中心点 (0.5, 0.5) 为轴
+                uv -= 0.5;
+                uv = mul(uv, rotationMatrix);
+                uv += 0.5;
+                return uv;
+            }
 
             v2f vert (appdata v) {
                 v2f o;
                 UNITY_SETUP_INSTANCE_ID(v); // 关键：必须设置ID
                 UNITY_TRANSFER_INSTANCE_ID(v, o); // 关键：传输ID
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = TRANSFORM_TEX(RotateUV(v.uv, _Rotation), _MainTex);
                 return o;
             }
 
@@ -69,9 +88,10 @@ Shader "Custom/InstancedColorShader"
 
                 // 计算亮度 (0为黑，1为白)
                 float luminance = dot(col.rgb, float3(0.299, 0.587, 0.114));
+                float width = fwidth(luminance);
 
                 float alpha = smoothstep(0.3, 1.0, pow(luminance, _TransparencyPower)) * col.a;
-                float edge = smoothstep(_SoftnessMin, _SoftnessMax, luminance);
+                float edge = smoothstep(_SoftnessMin - width, _SoftnessMax + width, pow(luminance, _SmoothPower));
 
                 fixed3 tintedRGB = lerp(color.rgb, col.rgb, edge);
 

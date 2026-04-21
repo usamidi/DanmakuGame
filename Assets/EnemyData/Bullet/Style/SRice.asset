@@ -16,6 +16,6 @@ MonoBehaviour:
   mesh: {fileID: 4300000, guid: 45cf291fd052bc178b4caedb8ffe3d49, type: 2}
   visualScale: 0.4
   hitboxRadius: 0.05
-  visualAngleOffset: -90
+  visualAngleOffset: 0
   zDepth: -1
   maxCount: 2000

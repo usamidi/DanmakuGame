@@ -29,6 +29,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Rotation: 270
+    - _SmoothPower: 0.8
     - _SoftnessMax: 1
     - _SoftnessMin: 0.5
     - _Threshold: 0.95

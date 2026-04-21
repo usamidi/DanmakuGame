@@ -30,9 +30,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _SoftnessMax: 1
-    - _SoftnessMin: 0.5
+    - _SoftnessMin: 0.45
     - _Threshold: 0.95
-    - _TransparencyPower: 0.05
+    - _TransparencyPower: 0.1
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

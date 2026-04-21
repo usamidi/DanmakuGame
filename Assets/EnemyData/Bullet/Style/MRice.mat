@@ -29,10 +29,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Rotation: 270
+    - _SmoothPower: 0.6
     - _SoftnessMax: 1
-    - _SoftnessMin: 0.8
+    - _SoftnessMin: 0.6
     - _Threshold: 0.95
-    - _TransparencyPower: 0.4
+    - _TransparencyPower: 0.34
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
