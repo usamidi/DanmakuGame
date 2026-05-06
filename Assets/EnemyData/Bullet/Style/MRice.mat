@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Rotation: 270
-    - _SmoothPower: 0.6
+    - _SmoothPower: 0.8
     - _SoftnessMax: 1
     - _SoftnessMin: 0.6
     - _Threshold: 0.95

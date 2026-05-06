@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65137cad46354847db1e5fda75998356, type: 3}
-  m_Name: SKnife
+  m_Name: SMedium
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: fca4b69dd544a6813b908ad217988355, type: 2}
+  material: {fileID: 2100000, guid: eb92c1da5cb35035da050922ee3094d8, type: 2}
   mesh: {fileID: 4300000, guid: 45cf291fd052bc178b4caedb8ffe3d49, type: 2}
-  visualScale: 0.7
+  visualScale: 0.6
   hitboxRadius: 0.12
   visualAngleOffset: 0
   zDepth: -1

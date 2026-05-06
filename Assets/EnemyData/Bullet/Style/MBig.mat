@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MBig
-  m_Shader: {fileID: 4800000, guid: c86379718334c7b19a5ac10b19f157d3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 39e7d659320e1ab9cb04e3af03b6892f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,10 +29,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Rotation: 0
+    - _SmoothPower: 0.7
     - _SoftnessMax: 1
-    - _SoftnessMin: 0.3
+    - _SoftnessMin: 0.2
     - _Threshold: 0.95
-    - _TransparencyPower: 0.06
+    - _TransparencyPower: 0.125
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

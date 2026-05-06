@@ -1,4 +1,4 @@
-Shader "Custom/BulletShader"
+Shader "Custom/LaserShader"
 {
     Properties
     {
@@ -17,7 +17,8 @@ Shader "Custom/BulletShader"
         LOD 100
         // 关键 2: 设置混合模式 (Blend SrcAlpha OneMinusSrcAlpha)
         // 这是最标准的透明度叠加算法
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend One One
+        BlendOp Add
         
         // 关键 3: 关闭深度写入 (ZWrite Off)
         // 否则透明物体会遮挡它身后的东西
@@ -95,7 +96,7 @@ Shader "Custom/BulletShader"
 
                 fixed3 tintedRGB = lerp(color.rgb, col.rgb, edge);
 
-                return fixed4(tintedRGB, alpha * color.a);
+                return fixed4(tintedRGB * alpha, alpha * color.a);
             }
             ENDCG
         }

@@ -40,6 +40,7 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
     private Coroutine activePattern;
 
+    /*
     void Start()
     {
         // 如果没有手动拖拽玩家，尝试通过标签自动寻找
@@ -197,7 +198,6 @@ public class EnemyDanmakuSpawner : MonoBehaviour
 
 
 
-            /*
             //while (context.bullet.state != EBulletState.ReachBound) yield return new WaitForSeconds(0.5f);
             //context.bullet.state = EBulletState.Dying;
             EBulletBatch batch = new EBulletBatch();
@@ -211,7 +211,6 @@ public class EnemyDanmakuSpawner : MonoBehaviour
             float finalAngle = angle + offsetAng;
             batch.AddBullet(context.bullet.position, speed, finalAngle);
             EBulletManager.Instance.SpawnBullet(batch.Packed(2, new Vector3(9f, 247f, 247f)));
-            */
             yield break;
         }
 
@@ -533,4 +532,5 @@ public class EnemyDanmakuSpawner : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         return angle;
     }
+    */
 }
