@@ -106,6 +106,23 @@ public class ItemManager : MonoBehaviour
                 Graphics.DrawMeshInstanced(itemMesh, 0, materialDict[type], matrixBuffer, drawCount);
             }
         }
+        AttractScoreItem();
+    }
+
+    void AttractScoreItem()
+    {
+        float max = EBulletManager.Instance.boundsMax.y;
+        float min = EBulletManager.Instance.boundsMin.y;
+        if (player.position.y - min > (max - min) * 0.8f)
+        {
+            for (int i = 0; i < items[ItemType.Score].Count; i++)
+            {
+                Item item = items[ItemType.Score][i];
+                if (!item.isActive) continue;
+                item.SetAttract();
+                items[ItemType.Score][i] = item;
+            }
+        }
     }
 
     void ApplyEffect(ItemType type, Vector3 pos)

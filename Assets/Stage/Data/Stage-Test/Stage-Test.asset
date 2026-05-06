@@ -240,7 +240,7 @@ MonoBehaviour:
   - waveName: Mid-Boss
     preDelay: 2
     spawns:
-    - enemyPrefabIndex: 2
+    - enemyPrefabIndex: 1
       enemyConfigs:
       - hp: 360
         position: {x: 0, y: 5, z: 0}

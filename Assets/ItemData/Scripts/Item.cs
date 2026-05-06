@@ -23,16 +23,21 @@ public struct Item
         return this;
     }
 
+    public void SetAttract()
+    {
+        isAttract = true;
+    }
+
     public void Move(float dt, Vector3 gravity, Vector3 playerPos)
     {
         if (isAttract)
         {
-            position = Vector3.MoveTowards(position, playerPos, 3.5f * dt);
+            position = Vector3.MoveTowards(position, playerPos, 9f * dt);
         }
         else
         {
             position += velocity * dt;
-            if (velocity.y >= -3.5f)
+            if (velocity.y >= -3f)
             {
                 velocity += gravity * dt;
             }
@@ -49,6 +54,6 @@ public struct Item
     {
         isActive = false;
         isAttract = false;
-        velocity = new Vector3(0f, 0.5f, 0f);
+        velocity = new Vector3(0f, 3f, 0f);
     }
 }

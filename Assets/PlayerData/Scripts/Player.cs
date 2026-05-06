@@ -181,6 +181,7 @@ public partial class Player : MonoBehaviour
         targetPosition.x = Mathf.Clamp(targetPosition.x, minBounds.x, maxBounds.x);
         targetPosition.y = Mathf.Clamp(targetPosition.y, minBounds.y, maxBounds.y);
 
+
         rb.MovePosition(targetPosition);
     }
 
