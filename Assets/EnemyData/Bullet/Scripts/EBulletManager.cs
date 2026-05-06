@@ -18,129 +18,6 @@ public enum EBBoundType : byte
     Right,
 }
 
-public class EBulletData
-{
-    public Vector3 position;
-    public Vector3 velocity
-    {
-        get
-        {
-            Vector3 dir = new Vector3(Mathf.Cos(direction * Mathf.Deg2Rad), Mathf.Sin(direction * Mathf.Deg2Rad), 0);
-            return dir * speed;
-        }
-
-        set
-        {
-            speed = value.magnitude;
-            direction = Mathf.Atan2(value.y, value.x) * Mathf.Rad2Deg;
-        }
-
-    }
-
-    public float speed;
-    public float direction;
-    /*
-  {
-      get => velocity.magnitude;
-      set
-      {
-          if (velocity.sqrMagnitude > 0f)
-              velocity = velocity.normalized * value;
-      }
-  }
-  */
-
-
-    public float rotation;
-    public float spawnDuration = 0.3f;
-    public float dieDuration = 0.3f;
-
-    public EBulletState state;
-    public EBBoundType boundType = EBBoundType.None;
-    public float timer = 0f;
-
-    public bool isGrazed = false;
-
-    public int reflectTimes = 0;
-
-    public void Active(Vector3 startPos, float speed, float degree, int reflects = 0)
-    {
-        this.speed = speed;
-        direction = degree;
-        //float angleRad = degree * Mathf.Deg2Rad;
-        //Vector3 dir = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0);
-        //velocity = dir * speed;
-
-        position = startPos;
-        rotation = degree;
-
-        state = EBulletState.Spawning;
-
-        reflectTimes = reflects;
-    }
-
-    public void SetDirection(float degree)
-    {
-        direction = degree;
-        rotation = degree;
-    }
-
-    public void Clear()
-    {
-        state = EBulletState.Dead;
-        boundType = EBBoundType.None;
-        timer = 0f;
-        spawnDuration = 0.3f;
-        dieDuration = 0.3f;
-        isGrazed = false;
-        reflectTimes = 0;
-    }
-
-    public float GetReflectAngle()
-    {
-        Vector2 incomingDirection = (Vector2)velocity;
-        Vector2 normal;
-        switch (boundType)
-        {
-            case EBBoundType.Left:
-                normal = Vector2.right;
-                break;
-            case EBBoundType.Right:
-                normal = Vector2.left;
-                break;
-            case EBBoundType.Top:
-                normal = Vector2.down;
-                break;
-            case EBBoundType.Bottom:
-                normal = Vector2.up;
-                break;
-            default:
-                return 0f;
-        }
-        Vector2 reflectedDirection = Vector2.Reflect(incomingDirection, normal);
-
-        // 得到新角度
-        return Mathf.Atan2(reflectedDirection.y, reflectedDirection.x) * Mathf.Rad2Deg;
-    }
-
-
-}
-
-
-
-public struct EBulletAppearance
-{
-    public string style;
-    public Vector3 color;
-
-    public EBulletAppearance(string s, Vector3 clr)
-    {
-        style = s;
-        color = clr;
-    }
-}
-
-
 public class EBulletBatch
 {
     public EBulletAppearance appearance;
@@ -158,10 +35,9 @@ public class EBulletBatch
         return bulletBatch.Count;
     }
 
-    public EBulletBatch AddBullet(Vector3 startPos, float speed, float degree, int reflects = 0)
+    public EBulletBatch AddBullet(EBulletData bullet)
     {
-        EBulletData bullet = EBulletManager.Instance.GetBullet();
-        bullet.Active(startPos, speed, degree, reflects);
+        bullet.Active();
         bulletBatch.Add(bullet);
         return this;
     }
@@ -234,23 +110,6 @@ public partial class EBulletManager : MonoBehaviour
     public ParticleSystem grazeVFX;
 
 
-
-    public void SpawnBullet(EBulletRenderBatch batch)
-    {
-        //if (bulletBatch.BulletNum() == 0) return false;
-        //if (bulletBatch.BulletNum() > 1023) return false;
-        batch.isActive = true;
-
-        //EBulletRenderBatch renderBatch = pool.Get();
-
-        //renderBatch.bullets = bulletBatch.bulletBatch;
-        //renderBatch.appearance.color = color;
-        //renderBatch.appearance.style = styleIndex;
-        // renderBatch.onUpdate = callBack;
-
-        //renderBatches.Add(renderBatch);
-    }
-
     public EBulletStyle GetBulletStyle(string name)
     {
         return styleDict[name];
@@ -268,6 +127,10 @@ public partial class EBulletManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        EnemyBulletSpawner.GetBullet = EBulletManager.Instance.GetBullet;
+        EnemyBulletSpawner.GetLaser = EBulletManager.Instance.GetLaser;
+
         initObjectPool();
         initStyleMap();
 
@@ -278,11 +141,6 @@ public partial class EBulletManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //EBulletBatch batch1 = new EBulletBatch(new Vector3(255f, 10f, 10f));
-        EBulletBatch batch1 = new EBulletBatch();
-        batch1.AddBullet(new Vector3(0f, 0f, 0f), 1f, 90f);
-        SpawnBullet(batch1.Packed("Small-1", new Vector3(255, 255, 0)));
-
         // UI init
         grazeUI.SetGraze(grazeNum);
     }
@@ -293,27 +151,29 @@ public partial class EBulletManager : MonoBehaviour
         Vector2 playerPos = playerTransform != null
           ? (Vector2)playerTransform.position : Vector2.zero;
 
-        renderBullet();
+        RenderBullet();
         UpdateLasers(Time.deltaTime, playerPos);   // ← 新增
 
         // 测试输入
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            float angle1 = UnityEngine.Random.Range(0f, 360f);
-            float angle2 = UnityEngine.Random.Range(0f, 360f);
-            //EBulletBatch batch2 = new EBulletBatch(new Vector3(255f, 10f, 10f));
-            EBulletBatch batch2 = new EBulletBatch();
-            batch2.AddBullet(
-                new Vector3(-1f, 0f, 0f), 1f, angle1
-            ).AddBullet(
-                new Vector3(1f, 0f, 0f), 1f, angle2
-            );
+            /*
+              float angle1 = UnityEngine.Random.Range(0f, 360f);
+              float angle2 = UnityEngine.Random.Range(0f, 360f);
+              //EBulletBatch batch2 = new EBulletBatch(new Vector3(255f, 10f, 10f));
+              EBulletBatch batch2 = new EBulletBatch();
+              batch2.AddBullet(
+                  new Vector3(-1f, 0f, 0f), 1f, angle1
+              ).AddBullet(
+                  new Vector3(1f, 0f, 0f), 1f, angle2
+              );
+              SpawnBullet(batch2.Packed("Small-2", new Vector3(255, 0, 255)));
+              */
 
-            SpawnBullet(batch2.Packed("Small-2", new Vector3(255, 0, 255)));
-
-            EBulletManager.Instance.SpawnInstantLaser("Rice", new Vector3(0f, 3.5f, 0f), 3f,
-            EBulletManager.GetAngleToPosition(new Vector3(0f, 3.5f, 0f), player.transform.position),
-              4f, 0.3f, new Vector3(255f, 0f, 0f));        // 被切一次后不再切
+            GetLaser().SetInstant()
+            .SetAppearance("Rice", new Vector3(255f, 0f, 0f))
+            .SetArea(4f, 0.3f)
+            .SetSpeed(3f, UnityEngine.Random.Range(0f, 360f)).Active();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -327,23 +187,4 @@ public partial class EBulletManager : MonoBehaviour
             }
         }
     }
-
-    public static float GetAngleToPlayer(Vector3 position)
-    {
-        Player player = EBulletManager.Instance.player;
-        if (player == null) return 270f; // 如果玩家死了或不存在，默认向下射击 (270度)
-
-        Vector2 dir = player.transform.position - position;
-        // Mathf.Atan2 返回的是弧度，需要乘以 Mathf.Rad2Deg 转换为度数
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        return angle;
-    }
-
-    public static float GetAngleToPosition(Vector3 position, Vector3 destination)
-    {
-        Vector2 dir = destination - position;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        return angle;
-    }
-
 }

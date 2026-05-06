@@ -6,6 +6,7 @@ using UnityEngine;
 public struct EMContext
 {
     public Transform self;
+    public EnemyBulletSpawner spawner;
 }
 
 

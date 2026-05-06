@@ -6,7 +6,7 @@ public enum ELaserType : byte { Instant, Warning }
 
 public enum ELaserState : byte { Spawning, Normal, Dying, Dead }
 
-public class ELaserData
+public class ELaserData : EBullet<ELaserData>
 {
     public ELaserType type;
     public bool isAcive;
@@ -15,27 +15,6 @@ public class ELaserData
     public Vector3 color;
 
     public ELaserState state;
-
-    public Vector3 position;
-    public Vector3 velocity
-    {
-        get
-        {
-            Vector3 dir = new Vector3(Mathf.Cos(direction * Mathf.Deg2Rad), Mathf.Sin(direction * Mathf.Deg2Rad), 0);
-            return dir * speed;
-        }
-
-        set
-        {
-            speed = value.magnitude;
-            direction = Mathf.Atan2(value.y, value.x) * Mathf.Rad2Deg;
-        }
-
-    }
-
-
-    public float speed;
-    public float direction;
 
     public float length;
     public float currentLength;
@@ -54,6 +33,41 @@ public class ELaserData
         Mathf.Cos(direction * Mathf.Deg2Rad),
         Mathf.Sin(direction * Mathf.Deg2Rad));
 
+
+    public ELaserData SetAppearance(string styleName, Vector3 color)
+    {
+        this.styleName = styleName;
+        this.color = color;
+        return this;
+    }
+    public ELaserData SetInstant() { type = ELaserType.Instant; return this; }
+    public ELaserData SetWarning() { type = ELaserType.Warning; return this; }
+    public ELaserData SetDuration(float time) { duration = time; return this; }
+    public ELaserData SetArea(float length, float width)
+    {
+        if (type == ELaserType.Instant)
+        {
+            this.width = width;
+        }
+        else if (type == ELaserType.Warning)
+        {
+            this.fullWidth = width;
+        }
+
+        this.length = length;
+        return this;
+    }
+
+    public void Active()
+    {
+        this.currentLength = 0f;
+        state = ELaserState.Spawning;
+        timer = 0f;
+        grazeCooldown = 0f;
+        isAcive = true;
+    }
+
+    /*
     public void ActiveInstant(string styleName, Vector3 pos, float speed, float angle,
                        float length, float width, Vector3 color)
     {
@@ -63,6 +77,7 @@ public class ELaserData
         this.speed = speed;
         this.position = pos;
         this.direction = angle;
+        this.rotation = angle;
         this.length = length;
         this.width = width;
         this.color = color;
@@ -84,7 +99,7 @@ public class ELaserData
         this.speed = EBulletManager.Instance.warningSpeed;
         this.duration = duration;
         this.position = pos;
-        this.direction = angle;
+        this.rotation = angle;
         this.length = length;
         this.fullWidth = width;
         this.width = 0f;
@@ -97,22 +112,17 @@ public class ELaserData
         grazeCooldown = 0f;
         isAcive = true;
     }
-
-
-    public void Move(float dt)
-    {
-        position += velocity * dt;
-    }
+    */
 
     public void Clear()
     {
+        ClearMoveParam();
         state = ELaserState.Dead;
         timer = 0f;
 
         currentLength = 0f;
         width = 0f;
         fullWidth = 0f;
-        speed = 0f;
         duration = 0f;
 
         grazeCooldown = 0f;

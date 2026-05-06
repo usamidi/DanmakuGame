@@ -35,10 +35,8 @@ public class EMovePattern : EnemyMotion
 
     public override IEnumerator Move(EMContext context)
     {
-
         foreach (var step in moveSteps)
         {
-
             Vector3 position = new();
             switch (step.pattern)
             {
@@ -57,6 +55,7 @@ public class EMovePattern : EnemyMotion
                 );
                 yield return null;
             }
+            context.spawner.NextMoveStep();
             if (step.waitTime > 0f)
                 yield return new WaitForSeconds(step.waitTime);
         }

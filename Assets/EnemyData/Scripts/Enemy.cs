@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class Enemy : MonoBehaviour
     private EnemyMotion motion;
 
     private Coroutine moveCoroutine;
-    private Coroutine bulletCoroutine;
+    private List<Coroutine> bulletCoroutine = new();
 
     private int hp;
     private bool isAlive;
@@ -36,7 +37,8 @@ public class Enemy : MonoBehaviour
 
     public Enemy SetSpawner(EnemyBulletSpawner spawner)
     {
-        this.spawner = spawner;
+        this.spawner = Instantiate(spawner);
+        this.spawner.StartCoroutine = StartCoroutine;
         return this;
     }
 
@@ -73,7 +75,14 @@ public class Enemy : MonoBehaviour
         ESContext context = new();
         context.player = player.transform;
         context.self = transform;
-        if (spawner != null) bulletCoroutine = StartCoroutine(spawner.BulletSpawn(context));
+        if (spawner != null)
+        {
+            spawner.ClearMoveStep();
+            foreach (var func in spawner.SpawnerList())
+            {
+                bulletCoroutine.Add(StartCoroutine(func(context)));
+            }
+        }
     }
 
 
@@ -81,6 +90,7 @@ public class Enemy : MonoBehaviour
     {
         EMContext context = new();
         context.self = transform;
+        context.spawner = spawner;
 
         if (moveCoroutine != null) StopCoroutine(moveCoroutine);
         moveCoroutine = StartCoroutine(MoveCoroutine(context));

@@ -87,7 +87,8 @@ public class EBulletCallBackManager : MonoBehaviour
             {
                 foreach (var b in bullets)
                 {
-                    visitTable[info.func].Remove(b);
+                    if (visitTable.ContainsKey(info.func))
+                        visitTable[info.func].Remove(b);
                 }
             }
         }

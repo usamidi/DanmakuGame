@@ -15,7 +15,10 @@ public class Boss : MonoBehaviour
         ESContext context = new();
         context.player = player.transform;
         context.self = transform;
-        StartCoroutine(spawner.BulletSpawn(context));
+        foreach (var func in spawner.SpawnerList())
+        {
+            StartCoroutine(func(context));
+        }
     }
 
     // Update is called once per frame

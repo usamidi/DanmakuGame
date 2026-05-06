@@ -32,11 +32,11 @@ public class ERandomShoot : EnemyBulletSpawner
     public float interval;
 
 
-    public override IEnumerator BulletSpawn(ESContext context)
+    public IEnumerator BulletSpawn(ESContext context)
     {
         for (int t = 0; t < spawnLimit || spawnLimit <= 0; t++)
         {
-            Vector3 position = context.self.position;
+            Vector2 position = context.self.position;
             EBulletBatch batch = new EBulletBatch();
             for (int i = 0; i < bulletCount; i++)
             {
@@ -46,14 +46,24 @@ public class ERandomShoot : EnemyBulletSpawner
 
                 float speed = Mathf.Lerp(speedLimit.x, speedLimit.y, UnityEngine.Random.Range(0f, 1f));
 
-                batch.AddBullet(pos +
-                    new Vector3(position.x, position.y, depth), speed, angle
+                batch.AddBullet(
+                    GetBullet()
+                    .SetPosition(position + new Vector2(pos.x, pos.y), depth)
+                    .SetSpeed(speed, angle)
                 );
             }
-            EBulletManager.Instance.SpawnBullet(batch.Packed(style, color));
+            batch.Packed(style, color).Active();
             yield return new WaitForSeconds(interval);
         }
         yield break;
 
+    }
+
+    public override List<Func<ESContext, IEnumerator>> SpawnerList()
+    {
+        return new List<Func<ESContext, IEnumerator>>
+        {
+          (context) => BulletSpawn(context)
+        };
     }
 }

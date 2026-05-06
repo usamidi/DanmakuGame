@@ -32,6 +32,12 @@ public partial class EBulletRenderBatch
         propertyBlock = new MaterialPropertyBlock();
     }
 
+    public void Active()
+    {
+        isActive = true;
+    }
+
+
     public void AddBullets(List<EBulletData> bulletDatas, HashSet<EBCallBackInfo> callBacks)
     {
         if (!bulletsTable.ContainsKey(callBacks))
@@ -132,7 +138,7 @@ public partial class EBulletManager : MonoBehaviour
     private EBContext context = new();
 
 
-    private void renderBullet()
+    private void RenderBullet()
     {
         float dt = Time.deltaTime;
         Vector2 playerPos = playerTransform != null ? (Vector2)playerTransform.position : Vector2.zero;
@@ -169,13 +175,14 @@ public partial class EBulletManager : MonoBehaviour
                         case EBulletState.Dead:
                             continue;
                         case EBulletState.Spawning:
-                            b.position += b.velocity * dt * 0.2f;
+                            b.Move(dt * 0.2f);
+                            //b.position += b.velocity * dt * 0.2f;
 
                             t = b.timer / b.spawnDuration;
                             if (t >= 1f) b.state = EBulletState.Normal;
                             else
                             {
-                                currentScale = Mathf.Lerp(style.visualScale * 3f, style.visualScale, t);
+                                currentScale = Mathf.Lerp(style.visualScale * 3.5f, style.visualScale, t);
                                 currentAlpha = t;
                             }
                             break;
@@ -202,8 +209,8 @@ public partial class EBulletManager : MonoBehaviour
                                 //Debug.Log("change");
                                 break;
                             }
-
-                            b.position += b.velocity * dt;
+                            b.Move(dt);
+                            //b.position += b.velocity * dt;
 
                             if (playerTransform != null)
                             {
@@ -237,7 +244,7 @@ public partial class EBulletManager : MonoBehaviour
                                     }
                                     b.state = EBulletState.Dying;
                                     b.timer = 0f;
-                                    b.velocity *= 0.2f;
+                                    //b.velocity *= 0.2f;
                                     if (destroyVFX != null)
                                     {
                                         ParticleSystem particle = Instantiate(destroyVFX, b.position, Quaternion.identity);
@@ -282,8 +289,8 @@ public partial class EBulletManager : MonoBehaviour
                     batch.colorBatch[renderIndex] = poolColor;
 
                     batch.matricesBatch[renderIndex] = Matrix4x4.TRS(
-                        b.position,
-                        Quaternion.Euler(0, 0, b.rotation + style.visualAngleOffset),
+                        b.Position(),
+                        Quaternion.Euler(0, 0, b.Rotation() + style.visualAngleOffset),
                         new Vector3(currentScale, currentScale, 1)
                     );
                     renderIndex++;

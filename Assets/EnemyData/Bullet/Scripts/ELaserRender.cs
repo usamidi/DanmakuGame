@@ -21,6 +21,7 @@ public partial class EBulletManager : MonoBehaviour
     [Header("=== 激光设置 ===")]
     [SerializeField] private float spawnDuration;
     [SerializeField] private float dieDuration;
+    [SerializeField] private float luminance;
 
 
     [Header("=== 激光预警线设置 ===")]
@@ -37,6 +38,7 @@ public partial class EBulletManager : MonoBehaviour
     private const int MAX_LASERS = 256;
     private const float MIN_SPLIT_LENGTH = 0.3f;
     private const float GRAZE_COOLDOWN = 0.15f;
+
     // =========================================================
     // 初始化（在已有 Awake() 里调用一次即可）
     // =========================================================
@@ -65,58 +67,12 @@ public partial class EBulletManager : MonoBehaviour
         laser.Clear();
     }
 
-    // =========================================================
-    // 外部 API
-    // =========================================================
-    public EBulletManager SpawnInstantLaser(
-        string styleName, Vector3 position, float speed, float angle,
-        float length, float width, Vector3 color)
-    {
-        if (!laserStyleDict.ContainsKey(styleName))
-        {
-            Debug.LogWarning($"[EBulletManager] Unknown laser style: {styleName}");
-            return this;
-        }
-
-        ELaserData laser = GetLaser();
-
-        if (laser == null)
-        {
-            Debug.LogWarning($"[EBulletManager] laser full");
-            return this;
-        }
-
-        laser.ActiveInstant(styleName, position, speed, angle, length, width, color);
-        return this;
-    }
-
-    public EBulletManager SpawnWarningLaser(
-        string styleName, Vector3 position, float duration,
-        float angle, float length, float width, Vector3 color)
-    {
-        if (!laserStyleDict.ContainsKey(styleName))
-        {
-            Debug.LogWarning($"[EBulletManager] Unknown laser style: {styleName}");
-            return this;
-        }
-
-        ELaserData laser = GetLaser();
-
-        if (laser == null)
-        {
-            Debug.LogWarning($"[EBulletManager] laser full");
-            return this;
-        }
-
-        laser.ActiveWarning(styleName, position, duration, angle, length, width, color);
-        return this;
-    }
-
     public void KillAllLasers()
     {
         for (int i = lasers.Count - 1; i >= 0; i--)
             ReleaseLaser(lasers[i]);
     }
+
     // =========================================================
     // 主循环（在已有 Update() 里调用一次）
     // =========================================================
@@ -137,9 +93,11 @@ public partial class EBulletManager : MonoBehaviour
                     switch (laser.type)
                     {
                         case ELaserType.Instant:
+                            laser.Move(0);
                             DoHitAndGraze(laser, playerPos, dt);
                             break;
                         case ELaserType.Warning:
+                            laser.Move(dt);
                             laser.width = warningWidth;
                             break;
                     }
@@ -166,6 +124,7 @@ public partial class EBulletManager : MonoBehaviour
                             DoHitAndGraze(laser, playerPos, dt);
                             break;
                         case ELaserType.Warning:
+                            laser.Move(dt);
                             if (laser.currentLength < laser.length)
                             {
                                 laser.currentLength += dt * warningSpeed;
@@ -230,7 +189,7 @@ public partial class EBulletManager : MonoBehaviour
             }
             if (destroyVFX != null)
             {
-                Vector3 hp = laser.position + (Vector3)(laser.Dir2 * tHit);
+                Vector3 hp = laser.Position() + (Vector3)(laser.Dir2 * tHit);
                 Instantiate(destroyVFX, hp, Quaternion.identity);
             }
 
@@ -249,7 +208,7 @@ public partial class EBulletManager : MonoBehaviour
                 laser.grazeCooldown = GRAZE_COOLDOWN;
                 if (grazeVFX != null)
                 {
-                    Vector3 gp = laser.position + (Vector3)(laser.Dir2 * tGr);
+                    Vector3 gp = laser.Position() + (Vector3)(laser.Dir2 * tGr);
                     Instantiate(grazeVFX, gp, Quaternion.identity);
                 }
             }
@@ -272,8 +231,12 @@ public partial class EBulletManager : MonoBehaviour
                 case ELaserType.Instant:
                     var a = GetLaser();
                     if (a == null) return;
-                    a.ActiveInstant(laser.styleName, laser.position, laser.speed, laser.direction,
-                             leftLen, laser.width, laser.color);
+                    a.SetInstant()
+                    .SetPosition(laser.position, laser.depth)
+                    .SetAppearance(laser.styleName, laser.color)
+                    .SetArea(leftLen, laser.width)
+                    .SetSpeed(laser.speed, laser.direction).Active();
+
                     a.state = ELaserState.Normal;
                     a.currentLength = leftLen;
                     a.grazeCooldown = 0.3f;
@@ -288,11 +251,28 @@ public partial class EBulletManager : MonoBehaviour
 
         if (rightLen >= MIN_SPLIT_LENGTH)
         {
-            Vector3 newPos = laser.position + (Vector3)(laser.Dir2 * (tHit + halfGap));
+            Vector2 newPos = laser.position + (laser.Dir2 * (tHit + halfGap));
+
+            float speed = 0f;
+            switch (laser.type)
+            {
+                case ELaserType.Instant:
+                    speed = laser.speed;
+                    break;
+                case ELaserType.Warning:
+                    speed = warningSpeed;
+                    break;
+            }
+
             var b = GetLaser();
             if (b == null) return;
-            b.ActiveInstant(laser.styleName, newPos, laser.speed, laser.direction,
-                     rightLen, laser.width, laser.color);
+
+            b.SetInstant()
+            .SetPosition(newPos, laser.depth)
+            .SetAppearance(laser.styleName, laser.color)
+            .SetArea(rightLen, laser.width)
+            .SetSpeed(speed, laser.direction).Active();
+
             b.state = ELaserState.Normal;
             b.currentLength = rightLen;
             b.grazeCooldown = 0.3f;
@@ -310,14 +290,13 @@ public partial class EBulletManager : MonoBehaviour
         if (laser.currentLength <= 0f || laser.width <= 0f) return;
 
         Vector2 d = laser.Dir2;
-        Vector3 center = laser.position + (Vector3)(d * (laser.currentLength * 0.5f));
-        center.z = style.zDepth;
+        Vector3 center = laser.Position() + (Vector3)(d * (laser.currentLength * 0.5f));
         Matrix4x4 m = Matrix4x4.TRS(
             center,
-            Quaternion.Euler(0f, 0f, laser.direction),
+            Quaternion.Euler(0f, 0f, laser.Rotation()),
             new Vector3(laser.currentLength, laser.width, 1f)
         );
-        Vector4 color = (Vector4)laser.color / 255.0f;
+        Vector4 color = (Vector4)laser.color / 255.0f * luminance;
         color.w = 1f;
         prop.SetVector("_Color", color);
         Graphics.DrawMesh(style.quadMesh, m, style.laserMaterial, 0, null, 0, prop);
