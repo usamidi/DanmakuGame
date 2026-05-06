@@ -526,7 +526,7 @@ Transform:
   m_GameObject: {fileID: 512534805}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.045, y: 0.015, z: 0.037970725}
+  m_LocalPosition: {x: 0, y: -0.52, z: 0.037970725}
   m_LocalScale: {x: 3.1118584, y: 3.1118584, z: 3.1118584}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -885,7 +885,6 @@ GameObject:
   m_Component:
   - component: {fileID: 618150429}
   - component: {fileID: 618150428}
-  - component: {fileID: 618150427}
   - component: {fileID: 618150426}
   - component: {fileID: 618150430}
   m_Layer: 0
@@ -939,14 +938,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &618150427
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618150425}
-  m_Enabled: 1
 --- !u!20 &618150428
 Camera:
   m_ObjectHideFlags: 0
@@ -1270,6 +1261,11 @@ MonoBehaviour:
 --- !u!1 &706924951 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975007482559797230, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
+  m_PrefabInstance: {fileID: 1382403492}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &706924954 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4953355777620973003, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
   m_PrefabInstance: {fileID: 1382403492}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &752988547
@@ -1624,15 +1620,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5862660882521175283, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 5862660882521175283, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 5862660882521175283, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5862660882521175283, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1716,6 +1712,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8851599651614063290, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1382403501}
+    - targetCorrespondingSourceObject: {fileID: 8851599651614063290, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1382403502}
   m_SourcePrefab: {fileID: 100100000, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}
 --- !u!1 &1382403493 stripped
 GameObject:
@@ -1747,6 +1746,7 @@ MonoBehaviour:
   normalSpeed: 6
   focusSpeed: 2.5
   defaultPos: {x: 0, y: -2.5, z: 0}
+  pma: {fileID: 1382403502}
   playerVisual: {fileID: 706924951}
   hitboxVisual: {fileID: 1382403495}
   bulletPrefab: {fileID: 1006153547875059308, guid: ddadc348f225635ea99c05669c3d27c5, type: 3}
@@ -1787,6 +1787,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &1382403502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382403493}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b3cde16a747814ba5d7d97509cd6e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 706924954}
+  blendSprites:
+  - {fileID: 21300000, guid: 044e1c15e21200c48aaf37335e85c415, type: 3}
+  - {fileID: 21300000, guid: b014a1dc22c0f70408f1f751dda8859f, type: 3}
+  - {fileID: 21300000, guid: db6ec3855e0bc464f985d99c6fe02c1c, type: 3}
+  - {fileID: 21300000, guid: 2d6228834da1dd147a3d47e5cc31519d, type: 3}
+  - {fileID: 21300000, guid: 65ffc0f104ea4814cbab3a4166110fc5, type: 3}
+  - {fileID: 21300000, guid: bd035de1640f600419f5b0a89d0d6709, type: 3}
+  - {fileID: 21300000, guid: b20da8bc1742d394082d9ab6913e6bf5, type: 3}
+  transitionSpeed: 30
 --- !u!1 &1447856056
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public partial class Player : MonoBehaviour
     [SerializeField] private float normalSpeed = 10f;
     [SerializeField] private float focusSpeed = 4f;
     [SerializeField] private Vector3 defaultPos;
+    public PlayerMoveAnim pma;
 
     [Header("引用组件")]
     [SerializeField] private GameObject playerVisual; // 拖入刚才创建的子物体 Hitbox
@@ -147,6 +148,7 @@ public partial class Player : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
         moveInput = new Vector2(moveX, moveY).normalized;
+        pma.MoveAnim(moveX);
     }
 
     void PlayerFocus()
