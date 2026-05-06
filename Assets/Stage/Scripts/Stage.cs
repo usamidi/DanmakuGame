@@ -1,5 +1,6 @@
 using System.Collections;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,12 +56,15 @@ public class Stage : ScriptableObject
     [SerializeField] private float clearDelay = 1.2f;
     [SerializeField] private StageWave[] waves = Array.Empty<StageWave>();
 
+    [Header("从第几波开始（调试）")]
+    [SerializeField] private int startWave = 0;
+
     public string StageId => stageId;
 
     public IEnumerator Run()
     {
         if (introDelay > 0f) yield return new WaitForSeconds(introDelay);
-        foreach (var wave in waves)
+        foreach (var wave in waves.Skip(startWave))
         {
             if (wave.preDelay > 0f) yield return new WaitForSeconds(wave.preDelay);
             for (int i = 0; i < wave.spawns.Length; i++)

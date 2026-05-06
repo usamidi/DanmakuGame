@@ -9,13 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a0c691332650b5d5b56d206a91338be, type: 3}
-  m_Name: Pattern1-1
+  m_Script: {fileID: 11500000, guid: a26dafdfc4d649d3198947dcee877426, type: 3}
+  m_Name: Wave1-B
   m_EditorClassIdentifier: 
-  moveSteps:
-  - pattern: 1
-    position: {x: 0, y: 0}
-    direction: 180
-    distance: 10
-    speed: 5
-    waitTime: 0

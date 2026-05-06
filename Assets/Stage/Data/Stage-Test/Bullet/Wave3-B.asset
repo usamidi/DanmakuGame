@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f48133d6934fcc0a72d19fade574ac, type: 3}
   m_Name: Wave3-B
   m_EditorClassIdentifier: 
-  bulletCount: 5
-  range: 0.8
+  bulletCount: 1
+  range: 1
