@@ -6,14 +6,49 @@ public struct Item
 {
     public Vector3 position;
     public Vector3 velocity;
-    public ItemType type;
     public bool isActive;
+    public bool isAttract;
 
-    public Item(Vector3 pos, Vector3 velocity, ItemType type)
+    public Item(Vector3 pos)
     {
         position = pos;
-        this.velocity = velocity;
-        this.type = type;
-        this.isActive = true;
+        velocity = new Vector3(0f, 3f, 0f);
+        isActive = false;
+        isAttract = false;
+    }
+
+    public Item SetPosition(Vector3 pos)
+    {
+        position = pos;
+        return this;
+    }
+
+    public void Move(float dt, Vector3 gravity, Vector3 playerPos)
+    {
+        if (isAttract)
+        {
+            position = Vector3.MoveTowards(position, playerPos, 3.5f * dt);
+        }
+        else
+        {
+            position += velocity * dt;
+            if (velocity.y >= -3.5f)
+            {
+                velocity += gravity * dt;
+            }
+        }
+    }
+
+    public Item Active()
+    {
+        isActive = true;
+        return this;
+    }
+
+    public void Deactive()
+    {
+        isActive = false;
+        isAttract = false;
+        velocity = new Vector3(0f, 0.5f, 0f);
     }
 }

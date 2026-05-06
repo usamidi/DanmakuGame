@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &139169991
 Transform:
   m_ObjectHideFlags: 0
@@ -272,9 +272,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemMesh: {fileID: 0}
-  itemMaterial: {fileID: 0}
-  fallSpeed: 3
+  itemMaterials:
+  - item: 0
+    material: {fileID: 2100000, guid: 3cdd235d49a641193885e50d2c37ca30, type: 2}
+  gravity: {x: 0, y: -9, z: 0}
   collectionRadius: 0.5
+  player: {fileID: 1382403500}
+  scale: {x: 0.35, y: 0.35, z: 0}
 --- !u!1 &227341103
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,8 +877,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d97aa3e1b3d8c82a9e37d2edce6423f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 11400000, guid: a9b7b86b1cfdd271788b521ef884e628, type: 2}
-  player: {fileID: 1382403496}
+  maxHp: 50
+  bodyHitRadius: 0.35
+  phases: []
+  phaseTransitionBuffer: 0.5
+  subPhaseTransitionBuffer: 0.5
 --- !u!1 &618150425
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,14 +973,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.13462502
-    y: 0.043995798
-    width: 0.45197496
-    height: 0.9171664
+    y: 0.04504046
+    width: 0.451975
+    height: 0.9144683
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.585832
+  orthographic size: 4.572341
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -998,7 +1005,7 @@ Transform:
   m_GameObject: {fileID: 618150425}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.021600723, y: 0.025790215, z: -10}
+  m_LocalPosition: {x: 0.12116003, y: 0.022745848, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1163,8 +1170,6 @@ MonoBehaviour:
     style: {fileID: 11400000, guid: 3cc44134ed141e8e1abd05a488af1bed, type: 2}
   - name: StarSmall
     style: {fileID: 11400000, guid: 78c94867e2798639c8182553c8725d1b, type: 2}
-  grazeNum: 0
-  grazeUI: {fileID: 1794295705}
   missNum: 0
   missUI: {fileID: 578618902}
   player: {fileID: 1382403496}
@@ -1258,6 +1263,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb7254ac7157f98aaf9c6c8ad01c8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  grazeText: {fileID: 0}
+  missText: {fileID: 0}
+  itemScoreText: {fileID: 0}
+  GetScoreText: {fileID: 0}
+  life: 0
+  bomb: 0
 --- !u!1 &706924951 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7975007482559797230, guid: 61e6c2c7a25d9b7b599cb32e05fefafb, type: 3}

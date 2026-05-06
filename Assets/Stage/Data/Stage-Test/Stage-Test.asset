@@ -237,4 +237,18 @@ MonoBehaviour:
       spawner: {fileID: 11400000, guid: a9b7b86b1cfdd271788b521ef884e628, type: 2}
     waitUntilNoEnemy: 0
     postDelay: 2
+  - waveName: Mid-Boss
+    preDelay: 2
+    spawns:
+    - enemyPrefabIndex: 2
+      enemyConfigs:
+      - hp: 360
+        position: {x: 0, y: 5, z: 0}
+      delayFromPrevious: 0
+      motion: {fileID: 0}
+      number: 1
+      interval: 0
+      spawner: {fileID: 0}
+    waitUntilNoEnemy: 0
+    postDelay: 2
   startWave: 0

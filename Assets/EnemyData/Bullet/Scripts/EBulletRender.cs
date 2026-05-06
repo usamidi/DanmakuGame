@@ -222,8 +222,7 @@ public partial class EBulletManager : MonoBehaviour
                                 // 擦弹检测
                                 if (distance <= sqrGrazeSum && !b.isGrazed)
                                 {
-                                    grazeNum++;
-                                    grazeUI.SetGraze(grazeNum);
+                                    UIManager.Instance.OnGraze();
                                     b.isGrazed = true;
                                     if (grazeVFX != null)
                                     {

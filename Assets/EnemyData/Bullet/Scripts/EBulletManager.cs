@@ -88,10 +88,6 @@ public partial class EBulletManager : MonoBehaviour
 
     private Dictionary<string, EBulletStyle> styleDict = new();
 
-    [Header("=== 擦弹计数器 ===")]
-    public uint grazeNum = 0;
-    [SerializeField] private GrazeUI grazeUI;
-
     [Header("=== 被弹计数器 ===")]
     public uint missNum = 0;
     [SerializeField] private MissUI missUI;
@@ -117,7 +113,6 @@ public partial class EBulletManager : MonoBehaviour
     }
     private void initStyleMap()
     {
-
         foreach (var pair in registeredStyles)
         {
             styleDict[pair.name] = pair.style;
@@ -142,7 +137,7 @@ public partial class EBulletManager : MonoBehaviour
     void Start()
     {
         // UI init
-        grazeUI.SetGraze(grazeNum);
+        //grazeUI.SetGraze(grazeNum);
     }
 
     // Update is called once per frame
