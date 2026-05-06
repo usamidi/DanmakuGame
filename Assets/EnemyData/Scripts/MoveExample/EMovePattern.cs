@@ -55,7 +55,8 @@ public class EMovePattern : EnemyMotion
                 );
                 yield return null;
             }
-            context.spawner.NextMoveStep();
+            if (context.spawner != null)
+                context.spawner.NextMoveStep();
             if (step.waitTime > 0f)
                 yield return new WaitForSeconds(step.waitTime);
         }

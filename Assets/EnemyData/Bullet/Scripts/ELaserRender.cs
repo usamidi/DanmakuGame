@@ -59,7 +59,7 @@ public partial class EBulletManager : MonoBehaviour
 
     private ELaserData GetLaser()
     {
-        return lasers.FirstOrDefault((l) => !l.isAcive);
+        return lasers.FirstOrDefault((l) => !l.isActive);
     }
 
     private void ReleaseLaser(ELaserData laser)
@@ -82,7 +82,7 @@ public partial class EBulletManager : MonoBehaviour
         for (int i = lasers.Count - 1; i >= 0; i--)
         {
             ELaserData laser = lasers[i];
-            if (laser.isAcive == false) continue;
+            if (laser.isActive == false) continue;
 
             laser.timer += dt;
             switch (laser.state)
@@ -203,8 +203,7 @@ public partial class EBulletManager : MonoBehaviour
             float tGr = laser.Distance(playerPos, playerGrazeRadius + hitboxWidth * 0.5f);
             if (tGr >= 0f)
             {
-                grazeNum++;
-                if (grazeUI != null) grazeUI.SetGraze(grazeNum);
+                UIManager.Instance.OnGraze();
                 laser.grazeCooldown = GRAZE_COOLDOWN;
                 if (grazeVFX != null)
                 {

@@ -8,19 +8,19 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private int maxHp = 50;
     [SerializeField] private float bodyHitRadius = 0.35f;
-    private int type;
+    protected int type;
 
-    private EnemyBulletSpawner spawner;
-    private Player player;
+    protected EnemyBulletSpawner spawner;
+    protected Player player;
 
 
-    private EnemyMotion motion;
+    protected EnemyMotion motion;
 
-    private Coroutine moveCoroutine;
-    private List<Coroutine> bulletCoroutine = new();
+    protected Coroutine moveCoroutine;
+    protected List<Coroutine> bulletCoroutine = new();
 
-    private int hp;
-    private bool isAlive;
+    protected int hp;
+    protected bool isAlive;
 
 
     public Enemy SetPlayer(Player player)
@@ -56,13 +56,13 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void OnSpawned()
+    public virtual void OnSpawned()
     {
         StartShoot();
         StartMove();
     }
 
-    public void OnDespawned()
+    public virtual void OnDespawned()
     {
         StopAllCoroutines();
         moveCoroutine = null;
@@ -140,13 +140,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Die()
+    protected virtual void Die()
     {
         isAlive = false;
         //if (bulletCoroutine != null) StopCoroutine(bulletCoroutine);
         gameObject.SetActive(false); // 或播放死亡动画后回收
-        StopAllCoroutines();
-        moveCoroutine = null;
-        bulletCoroutine = null;
+        ItemManager.Instance.SpawnItem(transform.position, ItemType.Score);
+        OnDespawned();
     }
 }

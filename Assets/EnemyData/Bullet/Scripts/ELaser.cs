@@ -9,7 +9,7 @@ public enum ELaserState : byte { Spawning, Normal, Dying, Dead }
 public class ELaserData : EBullet<ELaserData>
 {
     public ELaserType type;
-    public bool isAcive;
+    public bool isActive;
 
     public string styleName;
     public Vector3 color;
@@ -64,7 +64,7 @@ public class ELaserData : EBullet<ELaserData>
         state = ELaserState.Spawning;
         timer = 0f;
         grazeCooldown = 0f;
-        isAcive = true;
+        isActive = true;
     }
 
     /*
@@ -128,7 +128,7 @@ public class ELaserData : EBullet<ELaserData>
         grazeCooldown = 0f;
 
         styleName = null;
-        isAcive = false;
+        isActive = false;
     }
 
     public float Distance(Vector2 pos, float r)
