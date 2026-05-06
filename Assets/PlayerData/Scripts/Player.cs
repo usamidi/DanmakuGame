@@ -164,6 +164,7 @@ public partial class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.Z) && Time.time >= nextFireTime)
         {
             Shoot();
+            AudioManager.Instance.PlaySFX(SFXType.PlayerShoot);
             nextFireTime = Time.time + fireRate;
         }
     }
