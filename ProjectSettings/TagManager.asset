@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 3300149063
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: SpellCard
+    uniqueID: 3968131651
     locked: 0

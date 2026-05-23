@@ -3,16 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct DroppedItems
+{
+    public ItemType main;
+    public int power;
+    public int score;
+
+    public void Clear()
+    {
+        main = ItemType.Score;
+        power = 0;
+        score = 0;
+    }
+}
+
 public class Enemy : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] private int maxHp = 50;
-    [SerializeField] private float bodyHitRadius = 0.35f;
+    [SerializeField] protected int maxHp = 50;
+    [SerializeField] protected float bodyHitRadius = 0.35f;
     protected int type;
 
     protected EnemyBulletSpawner spawner;
     protected Player player;
-
 
     protected EnemyMotion motion;
 
@@ -21,6 +35,8 @@ public class Enemy : MonoBehaviour
 
     protected int hp;
     protected bool isAlive;
+
+    protected DroppedItems items;
 
 
     public Enemy SetPlayer(Player player)
@@ -53,6 +69,12 @@ public class Enemy : MonoBehaviour
     {
         this.hp = hp;
         return this;
+    }
+
+    public Enemy SetItems(DroppedItems items)
+    {
+        this.items = items;
+        return this;
 
     }
 
@@ -65,6 +87,7 @@ public class Enemy : MonoBehaviour
     public virtual void OnDespawned()
     {
         StopAllCoroutines();
+        items.Clear();
         moveCoroutine = null;
         bulletCoroutine = null;
     }
@@ -121,7 +144,7 @@ public class Enemy : MonoBehaviour
         CheckBodyCollision();
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         if (!isAlive) return;
         hp -= damage;
@@ -145,7 +168,18 @@ public class Enemy : MonoBehaviour
         isAlive = false;
         //if (bulletCoroutine != null) StopCoroutine(bulletCoroutine);
         gameObject.SetActive(false); // 或播放死亡动画后回收
-        ItemManager.Instance.SpawnItem(transform.position, ItemType.Score);
+        ItemManager.Instance.SpawnItem(transform.position, items.main);
+        for (int i = 0; i < items.power; i++)
+        {
+            Vector3 pos = UnityEngine.Random.insideUnitCircle;
+            ItemManager.Instance.SpawnItem(transform.position + pos, ItemType.SmallPower);
+        }
+
+        for (int i = 0; i < items.score; i++)
+        {
+            Vector3 pos = UnityEngine.Random.insideUnitCircle;
+            ItemManager.Instance.SpawnItem(transform.position + pos, ItemType.Score);
+        }
         OnDespawned();
     }
 }

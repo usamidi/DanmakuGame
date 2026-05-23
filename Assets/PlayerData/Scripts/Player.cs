@@ -203,7 +203,7 @@ public partial class Player : MonoBehaviour
 
         // 这里的 0.5f 是预留的边距，防止飞机一半身体进墙
         float padding = 0.3f;
-        minBounds = new Vector2(bottomLeft.x + padding, bottomLeft.y + padding);
-        maxBounds = new Vector2(topRight.x - padding, topRight.y - padding);
+        minBounds = EBulletManager.Instance.boundsMin;//new Vector2(bottomLeft.x + padding, bottomLeft.y + padding);
+        maxBounds = EBulletManager.Instance.boundsMax;//new Vector2(topRight.x - padding, topRight.y - padding);
     }
 }

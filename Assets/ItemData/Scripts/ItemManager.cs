@@ -22,7 +22,7 @@ public class ItemManager : MonoBehaviour
     public Vector3 gravity = new Vector3(0f, -2f, 0f);
     public float collectionRadius = 0.5f;
 
-    private const int MAX_ITEMS = 512;
+    private const int MAX_ITEMS = 2048;
 
     // 分类存储，以便渲染不同贴图/颜色的道具
     private Dictionary<ItemType, List<Item>> items = new();
@@ -60,6 +60,10 @@ public class ItemManager : MonoBehaviour
     {
         int index = items[type].FindIndex((i) => !i.isActive);
         Item item = items[type][index];
+        if (type == ItemType.ClearBullet)
+        {
+            item.SetAttract();
+        }
         items[type][index] = item.SetPosition(pos).Active();
     }
 
@@ -106,27 +110,31 @@ public class ItemManager : MonoBehaviour
                 Graphics.DrawMeshInstanced(itemMesh, 0, materialDict[type], matrixBuffer, drawCount);
             }
         }
-        AttractScoreItem();
+        AttractAllItems();
     }
 
-    void AttractScoreItem()
+    void AttractAllItems()
     {
         float max = EBulletManager.Instance.boundsMax.y;
         float min = EBulletManager.Instance.boundsMin.y;
         if (player.position.y - min > (max - min) * 0.8f)
         {
-            for (int i = 0; i < items[ItemType.Score].Count; i++)
+            foreach (var itemList in items.Values)
             {
-                Item item = items[ItemType.Score][i];
-                if (!item.isActive) continue;
-                item.SetAttract();
-                items[ItemType.Score][i] = item;
+                for (int i = 0; i < itemList.Count; i++)
+                {
+                    Item item = itemList[i];
+                    if (!item.isActive) continue;
+                    item.SetAttract();
+                    itemList[i] = item;
+                }
             }
         }
     }
 
     void ApplyEffect(ItemType type, Vector3 pos)
     {
+        ulong score = 0;
         switch (type)
         {
             case ItemType.Score:
@@ -140,10 +148,20 @@ public class ItemManager : MonoBehaviour
 
                 float t = height > 0.8f * borderHeight ? 1.0f : height / borderHeight;
 
-                ulong score = (ulong)Mathf.Lerp(itemScore * 0.4f, (float)itemScore, t);
+                score = (ulong)Mathf.Lerp(itemScore * 0.4f, (float)itemScore, t);
 
                 UIManager.Instance.AddScore(score);
+                Color color;
+                if (t == 1.0f) color = Color.yellow;
+                else color = Color.white;
+                UIManager.Instance.ShowScoreText(score, color, pos);
 
+                break;
+            case ItemType.ClearBullet:
+                score = UIManager.Instance.ItemScore / 10;
+                UIManager.Instance.AddScore(score);
+                UIManager.Instance.AddItemScore(10);
+                UIManager.Instance.ShowScoreText(score, Color.white, pos);
                 break;
             default:
                 //Debug.Log($"Collected: {type}");

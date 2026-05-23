@@ -15,14 +15,12 @@ public class Wave1A : EnemyBulletSpawner
 
     private IEnumerator func(EBContext context)
     {
-        float angle = UnityEngine.Random.Range(-45f, 45f);
-        context.bullet.Rotate(angle);
         yield break;
     }
 
     bool check(in EBContext context)
     {
-        return context.bullet.speed <= 0.8f;
+        return context.bullet.speed <= 1.2f;
     }
 
     public IEnumerator BulletSpawn(ESContext context)
@@ -38,7 +36,7 @@ public class Wave1A : EnemyBulletSpawner
             for (int n = 0; n < 4; n++)
             {
 
-                float finalSpeed = speed;
+                float finalSpeed = speed + n * 1.2f;
                 float startAngle = baseAngle - (spreadAngle / 2f);
                 float angleStep = spreadLines > 1 ? spreadAngle / (spreadLines - 1) : 0f;
                 EBulletBatch batch = new EBulletBatch();
@@ -49,7 +47,7 @@ public class Wave1A : EnemyBulletSpawner
                         GetBullet()
                         .SetPosition(firePos)
                         .SetSpeedRate(speedRate)
-                        .SetLimit(new Vector2(0.5f, -1f))
+                        .SetLimit(new Vector2(1.0f, -1f))
                         .SetSpeed(finalSpeed, currentAngle)
                     );
                 }

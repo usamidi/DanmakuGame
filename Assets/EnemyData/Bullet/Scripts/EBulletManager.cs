@@ -90,7 +90,7 @@ public partial class EBulletManager : MonoBehaviour
 
     [Header("=== 被弹计数器 ===")]
     public uint missNum = 0;
-    [SerializeField] private MissUI missUI;
+    //[SerializeField] private MissUI missUI;
 
     [Header("=== 全局与碰撞设置 ===")]
     public Player player;
@@ -169,6 +169,7 @@ public partial class EBulletManager : MonoBehaviour
             .SetAppearance("Rice", new Vector3(255f, 0f, 0f))
             .SetArea(4f, 0.3f)
             .SetSpeed(3f, UnityEngine.Random.Range(0f, 360f)).Active();
+            ClearBullet();
         }
 
         if (Input.GetKeyDown(KeyCode.D))

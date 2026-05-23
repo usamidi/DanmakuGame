@@ -111,6 +111,35 @@ public partial class EBulletManager : MonoBehaviour
         return null;
     }
 
+    public void ClearBullet()
+    {
+        foreach (var batch in renderBatches)
+        {
+            if (batch.isActive == false) continue;
+            foreach (var bullets in batch.bulletsTable.Values)
+            {
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if (bullets[i].state == EBulletState.Normal)
+                    {
+                        bullets[i].state = EBulletState.Dying;
+                        ItemManager.Instance.SpawnItem(bullets[i].position, ItemType.ClearBullet);
+                    }
+                }
+            }
+
+        }
+
+        for (int i = lasers.Count - 1; i >= 0; i--)
+        {
+            ELaserData laser = lasers[i];
+            if (laser.isActive == false) continue;
+            laser.state = ELaserState.Dying;
+            ItemManager.Instance.SpawnItem(laser.position, ItemType.ClearBullet);
+        }
+
+    }
+
     private bool isOutOfBound(ref EBulletData b)
     {
         if (b.position.x < boundsMin.x)
@@ -195,9 +224,28 @@ public partial class EBulletManager : MonoBehaviour
                             else
                             {
                                 b.state = EBulletState.Dead;
-                                //b.isAlive = false;
-                                //batch.bullets.RemoveAt(j);
-                                break;
+                                /*
+                                  t = b.timer / 0.3f;
+                                  if (t >= 1f)
+                                  {
+                                      if (isOutOfBound(ref b))
+                                      {
+                                          b.state = EBulletState.Dead;
+
+                                      }
+                                      else
+                                      {
+                                          b.timer = 0f;
+                                          b.state = EBulletState.Normal;
+                                      }
+                                      //b.isAlive = false;
+                                      //batch.bullets.RemoveAt(j);
+                                  }
+                                  else
+                                  {
+                                      b.Move(dt);
+                                  }
+                                  */
                             }
                             b.boundType = EBBoundType.None;
                             break;
@@ -205,6 +253,7 @@ public partial class EBulletManager : MonoBehaviour
                             // 检查边界
                             if (isOutOfBound(ref b))
                             {
+                                b.timer = 0f;
                                 b.state = EBulletState.ReachBound;
                                 //Debug.Log("change");
                                 break;
@@ -238,7 +287,7 @@ public partial class EBulletManager : MonoBehaviour
                                     {
                                         player.PlayerMiss();
                                         missNum++;
-                                        missUI.SetMiss(missNum);
+                                        //missUI.SetMiss(missNum);
 
                                     }
                                     b.state = EBulletState.Dying;

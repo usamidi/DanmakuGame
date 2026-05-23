@@ -6,7 +6,8 @@ using UnityEngine;
 public enum MovePattern
 {
     WayPoint,
-    Relative
+    Relative,
+    Random
 }
 
 [System.Serializable]
@@ -20,6 +21,10 @@ public class MoveSteps
     [Header("相对运动用")]
     public float direction;
     public float distance;
+
+    [Header("随机用范围限制 (以初始位置为中心)")]
+    public Vector2 range = new Vector2(5f, 5f);
+    public bool isAlways = false;
 
     [Header("通用")]
     public float speed = 3f;
@@ -35,8 +40,9 @@ public class EMovePattern : EnemyMotion
 
     public override IEnumerator Move(EMContext context)
     {
-        foreach (var step in moveSteps)
+        for (int i = 0; i < moveSteps.Count; i++)
         {
+            var step = moveSteps[i];
             Vector3 position = new();
             switch (step.pattern)
             {
@@ -45,6 +51,20 @@ public class EMovePattern : EnemyMotion
                     break;
                 case MovePattern.WayPoint:
                     position = step.position;
+                    break;
+                case MovePattern.Random:
+                    Vector3 randomOffset = new Vector3(
+                        Random.Range(-step.range.x, step.range.x),
+                        Random.Range(-step.range.y, step.range.y),
+                        0f
+                    );
+                    position = context.self.position + randomOffset;
+                    position.x = Mathf.Clamp(position.x, -3.0f, 3.0f);
+                    position.y = Mathf.Clamp(position.y, 1.5f, 3.5f);
+                    if (step.isAlways)
+                    {
+                        i--;
+                    }
                     break;
             }
 

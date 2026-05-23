@@ -59,11 +59,18 @@ public class EnemyManager : MonoBehaviour
         );
     }
 
-    public Enemy SpawnEnemy(int type, int hp, Vector3 pos, EnemyMotion motion, EnemyBulletSpawner spawner)
+    public Enemy SpawnEnemy(int type, int hp, Vector3 pos, EnemyMotion motion, EnemyBulletSpawner spawner, DroppedItems items)
     {
         Enemy e = pools[type].Get();
         e.transform.position = pos;
-        e.SetMotion(motion).SetSpawner(spawner).SetHP(hp).OnSpawned();
+        if (e is Boss boss)
+        {
+            boss.OnSpawned();
+        }
+        else
+        {
+            e.SetMotion(motion).SetSpawner(spawner).SetHP(hp).SetItems(items).OnSpawned();
+        }
         //e.BindManager(this, type);   // 让 Enemy 知道回收去哪里
         //e.OnSpawned();               // 重置HP、启动移动/射击
         aliveEnemies[type].Add(e);

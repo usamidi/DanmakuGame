@@ -14,15 +14,12 @@ public class Wave1B : EnemyBulletSpawner
         EBulletBatch batch = new EBulletBatch();
         //float angle = GetAngleToPlayer(context.bullet.position);
 
-        for (int i = 0; i < 1; i++)
-        {
-            batch.AddBullet(
-                GetBullet()
-                .SetPosition(context.bullet.position)
-                .SetAccelarate(new Vector2(0f, -2.0f))
-                .SetSpeed(1f, context.bullet.GetReflectAngle() + UnityEngine.Random.Range(90f, -90f))
-            );
-        }
+        batch.AddBullet(
+            GetBullet()
+            .SetPosition(context.bullet.position)
+            .SetAccelarate(new Vector2(0f, -2.0f))
+            .SetSpeed(0.8f, context.bullet.GetReflectAngle() + UnityEngine.Random.Range(90f, -90f))
+        );
 
         batch.Packed("Small-1", new Vector3(0, 0, 255f)).Active();
         yield break;

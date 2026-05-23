@@ -26,12 +26,16 @@ public class BossPhase
 
     [Header("弹幕样式")]
     public EnemyBulletSpawner spawner;
+
+    public ulong baseBonus;
+    public ulong secondBonus;
+
     [Tooltip("持续时间，0 表示不限时（仅 HP 触发切换）")]
     public float duration = 0f;
 }
 
 
-public class Boss : Enemy
+public partial class Boss : Enemy
 {
     [Header("阶段配置")]
     [SerializeField] private List<BossPhase> phases = new();
@@ -39,6 +43,9 @@ public class Boss : Enemy
     [Header("阶段切换缓冲")]
     [SerializeField] private float phaseTransitionBuffer = 0.5f;
     [SerializeField] private float subPhaseTransitionBuffer = 0.5f;
+
+    [Header("从第几个阶段开始(测试用)")]
+    [SerializeField] private int skip = 0;
 
     private int currentPhaseIndex = -1;
     private BossPhase currentPhase;
@@ -64,9 +71,18 @@ public class Boss : Enemy
         return this;
     }
 
+    public override void TakeDamage(int damage)
+    {
+        if (!isAlive || isTransitioning) return;
+        hp -= damage;
+        UIManager.Instance.UpdateHealthBar(hp, currentPhase.hp);
+        if (hp <= 0) Die();
+    }
+
+
     public override void OnSpawned()
     {
-        currentPhaseIndex = -1;
+        currentPhaseIndex = skip - 1;
         isTransitioning = false;
         AdvanceToNextPhase();
     }
@@ -115,6 +131,8 @@ public class Boss : Enemy
 
         StopMotionCoroutine();
         StopAllSpawnerActivity();
+        yield return new WaitForSeconds(0.25f);
+        EBulletManager.Instance.ClearBullet();
 
         currentPhaseIndex++;
         if (phases == null || currentPhaseIndex >= phases.Count)
@@ -153,20 +171,16 @@ public class Boss : Enemy
 
         if (currentPhase.duration > 0f)
         {
-            yield return new WaitForSeconds(currentPhase.duration);
+            StartCountdown(currentPhase.duration);
+            yield return new WaitWhile(() => isTimerRunning);
+            //yield return new WaitForSeconds(currentPhase.duration);
+            //ClearTimer();
         }
     }
 
     private IEnumerator EnterSpecialPhase()
     {
         isTransitioning = true;
-
-        /*
-        StopSpawnerCoroutines();
-        DespawnSpawner(runtimeSpawner);
-        runtimeSpawner = null;
-        */
-
         if (currentPhase.spawner == null)
         {
             AdvanceToNextPhase();
@@ -174,9 +188,9 @@ public class Boss : Enemy
         }
 
         currentSubPhase = BossSubPhase.Special;
-        ResetHPAndAlive(currentPhase.hp);
-
         Debug.Log($"[Boss] Enter Special: {currentPhase.phaseName}");
+        // Insert Spell Card VFX
+        UIManager.Instance.EnterSpellCard(currentPhase.phaseName, currentPhase.baseBonus + currentPhase.secondBonus * (ulong)currentPhase.duration);
 
         yield return new WaitForSeconds(subPhaseTransitionBuffer);
 
@@ -185,7 +199,8 @@ public class Boss : Enemy
 
         if (currentPhase.duration > 0f)
         {
-            yield return new WaitForSeconds(currentPhase.duration);
+            StartCountdown(currentPhase.duration);
+            yield return new WaitWhile(() => isTimerRunning);
         }
     }
 
@@ -261,6 +276,12 @@ public class Boss : Enemy
 
     private void StopPhaseFlow()
     {
+        if (currentPhase?.type == BossSubPhase.Special)
+        {
+            UIManager.Instance.ExitSpellCard();
+        }
+        ClearTimer();
+
         if (phaseFlowCoroutine != null)
         {
             StopCoroutine(phaseFlowCoroutine);
@@ -272,6 +293,7 @@ public class Boss : Enemy
     {
         hp = newHp;
         isAlive = true;
+        UIManager.Instance.UpdateHealthBar(hp, currentPhase.hp);
     }
 
     protected virtual void OnAllPhasesCleared()
@@ -281,6 +303,7 @@ public class Boss : Enemy
         StopMotionCoroutine();
         StopAllSpawnerActivity();
         StopPhaseFlow();
+        UIManager.Instance.UpdateHealthBar(hp, -1f);
 
         if (EnemyManager.Instance != null)
             EnemyManager.Instance.DespawnEnemy(this, type);

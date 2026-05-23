@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 89dabd4a1ef84726e8d72f5585fba3cd, type: 2}
   mesh: {fileID: 4300000, guid: 45cf291fd052bc178b4caedb8ffe3d49, type: 2}
-  visualScale: 0.45
+  visualScale: 0.7
   hitboxRadius: 0.08
   visualAngleOffset: -90
   zDepth: -1
-  maxCount: 2000

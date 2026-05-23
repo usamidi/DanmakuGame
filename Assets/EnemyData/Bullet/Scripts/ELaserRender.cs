@@ -184,7 +184,7 @@ public partial class EBulletManager : MonoBehaviour
             {
                 player.PlayerMiss();
                 missNum++;
-                if (missUI != null) missUI.SetMiss(missNum);
+                //if (missUI != null) missUI.SetMiss(missNum);
 
             }
             if (destroyVFX != null)

@@ -34,7 +34,7 @@ Material:
     - _SoftnessMax: 1
     - _SoftnessMin: 0.4
     - _Threshold: 0.8
-    - _TransparencyPower: 0.1
+    - _TransparencyPower: 0
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

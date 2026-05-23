@@ -20,6 +20,9 @@ public class StageSpawnCommand
     [Header("敌人配置")]
     public List<StageEnemyConfig> enemyConfigs = new();
 
+    [Header("掉落道具")]
+    public DroppedItems items;
+
     public float delayFromPrevious = 0.15f;
 
     [Header("移动模式")]
@@ -93,7 +96,7 @@ public class Stage : ScriptableObject
 
         foreach (var conf in cmd.enemyConfigs)
         {
-            EnemyManager.Instance.SpawnEnemy(cmd.enemyPrefabIndex, conf.hp, conf.position, cmd.motion, cmd.spawner);
+            EnemyManager.Instance.SpawnEnemy(cmd.enemyPrefabIndex, conf.hp, conf.position, cmd.motion, cmd.spawner, cmd.items);
         }
     }
 }

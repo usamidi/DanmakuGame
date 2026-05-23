@@ -2,9 +2,6 @@
 
 ## 创作者
 
-1120231936 马艺华
-1120232117 何杰
-
 ## 户籍
 
 源代码另见<https://github.com/usamidi/DanmakuGame/>

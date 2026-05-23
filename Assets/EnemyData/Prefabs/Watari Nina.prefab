@@ -27,8 +27,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3154350669383306486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -994818233
+  m_SortingLayer: -1
+  m_SortingOrder: -4
   m_Sprite: {fileID: 21300000, guid: 6b1e9b9de87aaee2da8475b7d955e03d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3154350669383306486}
   - component: {fileID: 3781918573934495004}
+  - component: {fileID: 9049577496119876215}
   m_Layer: 0
   m_Name: Watari Nina
   m_TagString: Untagged
@@ -132,12 +133,195 @@ MonoBehaviour:
   maxHp: 50
   bodyHitRadius: 0.35
   phases:
-  - phaseName: 
-    hp: 0
-    motion: {fileID: 0}
-    normalSpawner: {fileID: 0}
-    normalDuration: 0
-    specialSpawner: {fileID: 0}
-    specialDuration: 0
+  - phaseName: Non-spell1
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: d29d528fc66b49eacaa12f92594b387b, type: 2}
+    spawner: {fileID: 11400000, guid: fb78fc93ab6923662857ce82096ad849, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u5929\u6C14\u9884\u62A5\u300C\u826F\u4E61\u66B4\u96E8\u84DD\u8272\u9884\u8B66\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: d29d528fc66b49eacaa12f92594b387b, type: 2}
+    spawner: {fileID: 11400000, guid: 2b9b0bbfa0cee91eca2e8748a4d4bc61, type: 2}
+    baseBonus: 700000
+    secondBonus: 70000
+    duration: 41
+  - phaseName: Non-spell2
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: 116b0444249a0ad3b9a30154d66dcea1, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u5929\u6C14\u9884\u62A5\u300C\u5317\u4EAC\u5927\u98CE\u7EA2\u8272\u9884\u8B66\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: d29d528fc66b49eacaa12f92594b387b, type: 2}
+    spawner: {fileID: 11400000, guid: 516c6b1af255c4ecb8e3cb7b8d55d016, type: 2}
+    baseBonus: 700000
+    secondBonus: 75000
+    duration: 41
+  - phaseName: Non-spell3
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: fa7c0b1224afc763c83ac3da375a0c3d, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u7A92\u606F\u300C\u67F3\u7D6E\u6EE1\u5929\u98DE\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: d29d528fc66b49eacaa12f92594b387b, type: 2}
+    spawner: {fileID: 11400000, guid: 7203e75a82c70135a8b2921944dbbe3f, type: 2}
+    baseBonus: 700000
+    secondBonus: 80000
+    duration: 41
+  - phaseName: Non-spell4
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: ebbab62d2d4710eb681c08c50de899ed, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u9759\u56ED\u300C\u758F\u4E8E\u4FEE\u7F2E\u7684\u9053\u8DEF\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: 07a9d611336bddf88a7539076aea0f37, type: 2}
+    spawner: {fileID: 11400000, guid: a6d54eed0160cc5c8b2e346e38139692, type: 2}
+    baseBonus: 700000
+    secondBonus: 85000
+    duration: 41
+  - phaseName: Non-spell5
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: ec00421ccc9fbbb498de2c9c01b2d642, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u9759\u56ED\u300C\u85CF\u5728\u5C0F\u6797\u91CC\u7684\u52A8\u7269\u670B\u53CB\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: d29d528fc66b49eacaa12f92594b387b, type: 2}
+    spawner: {fileID: 11400000, guid: d7e0243ff243b2d53b6c56bd7b872399, type: 2}
+    baseBonus: 700000
+    secondBonus: 90000
+    duration: 41
+  - phaseName: Non-spell6
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: 6d1ab0dcfc8a8111986ae99334722f6d, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u9759B\u300C\u6BC1\u574F\u7684\u536B\u751F\u95F4\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: 024d87a0e1704f2108bcb3de1eb696c1, type: 2}
+    spawner: {fileID: 11400000, guid: 0dcb2d223fbf858db9c3896dda741d63, type: 2}
+    baseBonus: 700000
+    secondBonus: 95000
+    duration: 41
+  - phaseName: Non-spell7
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: 71a31322377de2fbf89a5eff712a62dc, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u91D1\u7B26\u300C\u751F\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: cf15930dfc494d9bdb7fff5ada78040e, type: 2}
+    spawner: {fileID: 11400000, guid: 066841405915fa975917c0b74c3b0672, type: 2}
+    baseBonus: 700000
+    secondBonus: 100000
+    duration: 41
+  - phaseName: Non-spell8
+    type: 0
+    hp: 800
+    motion: {fileID: 11400000, guid: 1e17698756718c709867e902fa9f4804, type: 2}
+    spawner: {fileID: 11400000, guid: 85bb211259f373f5182f762c9be061d8, type: 2}
+    baseBonus: 0
+    secondBonus: 0
+    duration: 41
+  - phaseName: "\u4E50\u5B66\u300C\u5343\u79A7\u5E74\u521D\u7684PPT\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: d29d528fc66b49eacaa12f92594b387b, type: 2}
+    spawner: {fileID: 11400000, guid: 1d187ac0d5244a465b77c5c30089239e, type: 2}
+    baseBonus: 700000
+    secondBonus: 150000
+    duration: 41
+  - phaseName: "\u300C\u65E9\u9AD8\u5CF0\u623F\u5C71\u7EBF\u300D"
+    type: 1
+    hp: 800
+    motion: {fileID: 11400000, guid: d5a38176c3111cc5482b9084a6931a76, type: 2}
+    spawner: {fileID: 11400000, guid: 8dc1c70b673080d9caf45ed031f927ea, type: 2}
+    baseBonus: 5000000
+    secondBonus: 0
+    duration: 81
+  - phaseName: "\u7406\u5802\u300C\u996D\u94A2\u72AC\u5ACC\u964D\u4E34\u300D"
+    type: 1
+    hp: 1600
+    motion: {fileID: 11400000, guid: 024d87a0e1704f2108bcb3de1eb696c1, type: 2}
+    spawner: {fileID: 11400000, guid: 6a96635f26df1d4afa9103b60253af55, type: 2}
+    baseBonus: 700000
+    secondBonus: 200000
+    duration: 81
   phaseTransitionBuffer: 0.5
-  subPhaseTransitionBuffer: 0.5
+  subPhaseTransitionBuffer: 1.5
+  skip: 0
+--- !u!61 &9049577496119876215
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7727957161322687865}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
